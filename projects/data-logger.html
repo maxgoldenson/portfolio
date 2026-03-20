@@ -75,6 +75,8 @@
     .img-wrap.ratio-square { aspect-ratio: 4 / 3; }
     /* 2:1 wide */
     .img-wrap.ratio-2x1 { aspect-ratio: 2 / 1; }
+    /* Portrait — firmware flowchart 502×681 */
+    .img-wrap.ratio-flowchart { aspect-ratio: 502 / 681; }
 
     .img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
     .img-wrap img.loaded + .img-placeholder { display: none; }
@@ -426,7 +428,7 @@
     </div>
 
     <figure class="img-figure">
-      <div class="img-wrap ratio-schematic">
+      <div class="img-wrap ratio-flowchart">
         <img src="../images/data-logger/05-firmware-diagram.jpg" alt="Firmware architecture diagram">
         <div class="img-placeholder">
           <span class="placeholder-icon">📷</span>

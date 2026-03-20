@@ -73,6 +73,8 @@
     .img-wrap.ratio-schematic { aspect-ratio: 16 / 7; }
     /* Square-ish for PCB trace close-ups */
     .img-wrap.ratio-square { aspect-ratio: 4 / 3; }
+    /* 2:1 wide */
+    .img-wrap.ratio-2x1 { aspect-ratio: 2 / 1; }
 
     .img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
     .img-wrap img.loaded + .img-placeholder { display: none; }
@@ -356,7 +358,7 @@
     <h3>PCB Layout & Assembly</h3>
     <div class="img-grid-2">
       <figure class="img-figure inline">
-        <div class="img-wrap">
+        <div class="img-wrap ratio-2x1">
           <img src="../images/data-logger/02-pcb-layout.jpg" alt="PCB layout — copper traces">
           <div class="img-placeholder">
             <span class="placeholder-icon">📷</span>
@@ -367,7 +369,7 @@
         <figcaption class="img-caption">PCB layout — copper pour, trace routing, component placement</figcaption>
       </figure>
       <figure class="img-figure inline">
-        <div class="img-wrap">
+        <div class="img-wrap ratio-2x1">
           <img src="../images/data-logger/03-hardware-assembled.jpg" alt="Assembled PCB">
           <div class="img-placeholder">
             <span class="placeholder-icon">📷</span>

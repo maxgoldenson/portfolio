@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Max Goldenson — Robotics & Mechatronics Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --surface: #16161f;
+      --surface2: #1e1e2a;
+      --border: #2a2a3a;
+      --accent: #e8ff47;
+      --accent2: #47c8ff;
+      --text: #e8e8f0;
+      --text-dim: #888898;
+      --text-dimmer: #444455;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,10,15,0.88);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.35;
+    }
+
+    .hero-grid-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 20% 50%, rgba(232,255,71,0.06) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 50% at 80% 30%, rgba(71,200,255,0.05) 0%, transparent 60%);
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 1100px;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+    }
+
+    h1 span {
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-dim);
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      border: 1px solid;
+      transition: all 0.2s;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-dim);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+
+    .hero-stats {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .stat {
+      text-align: right;
+    }
+
+    .stat-num {
+      font-family: var(--mono);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-dimmer);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 3rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-dimmer);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .scroll-line {
+      width: 2.5rem;
+      height: 1px;
+      background: var(--text-dimmer);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      animation: slide 1.8s ease-in-out infinite;
+    }
+
+    @keyframes slide {
+      0% { left: -100%; }
+      50% { left: 0%; }
+      100% { left: 100%; }
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--accent2);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    h2 {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+
+    /* ── EXPERIENCE ── */
+    .experience-grid {
+      display: grid;
+      gap: 1.5px;
+      background: var(--border);
+    }
+
+    .exp-card {
+      background: var(--bg2);
+      padding: 2.5rem;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .exp-card:hover { background: var(--surface); }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .exp-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .exp-company {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .exp-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dimmer);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+
+    .exp-role {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .exp-bullets li {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-dim);
+      padding-left: 1.25rem;
+      position: relative;
+    }
+
+    .exp-bullets li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.75rem;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5px;
+      background: var(--border);
+    }
+
+    .project-card {
+      background: var(--bg2);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+      cursor: default;
+    }
+
+    .project-card:hover { background: var(--surface); }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--accent);
+      transition: height 0.3s ease;
+    }
+
+    .project-card:hover::before { height: 100%; }
+
+    .project-tag {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.75rem;
+    }
+
+    .project-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .project-desc {
+      font-size: 0.875rem;
+      line-height: 1.65;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tech-chip {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.05em;
+      color: var(--text-dimmer);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.55rem;
+    }
+
+    /* ── SKILLS ── */
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      background: var(--border);
+    }
+
+    .skill-group {
+      background: var(--bg2);
+      padding: 2rem;
+    }
+
+    .skill-group-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-pill {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem;
+      letter-spacing: 0.04em;
+      transition: all 0.15s;
+    }
+
+    .skill-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── ABOUT ── */
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-sidebar {}
+
+    .about-education {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .edu-school {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-degree {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      line-height: 1.7;
+    }
+
+    .edu-gpa {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-top: 0.75rem;
+    }
+
+    .about-contact {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .contact-item:hover { color: var(--accent); }
+
+    .contact-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.65rem;
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer span {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-dimmer);
+      letter-spacing: 0.1em;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── DIVIDER ── */
+    .full-bleed-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .fade-in:nth-child(2) { animation-delay: 0.2s; }
+    .fade-in:nth-child(3) { animation-delay: 0.35s; }
+    .fade-in:nth-child(4) { animation-delay: 0.5s; }
+    .fade-in:nth-child(5) { animation-delay: 0.65s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .hero-stats { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .skills-layout { grid-template-columns: 1fr; }
+      .about-layout { grid-template-columns: 1fr; gap: 2rem; }
+      footer { padding: 1.5rem; }
+    }
+
+    @media (max-width: 540px) {
+      .nav-links { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">MG_PORTFOLIO</a>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-inner">
+      <p class="hero-label fade-in">Robotics & Mechatronics Engineer</p>
+      <h1 class="fade-in">
+        Maxwell
+        <span>Goldenson</span>
+      </h1>
+      <p class="hero-desc fade-in">
+        Designing, integrating, and debugging real-world robotic systems that bridge precision mechanisms,
+        embedded electronics, and control. Dual BSME/BSEE at CU Boulder.
+      </p>
+      <div class="hero-cta fade-in">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="mailto:maxwellgoldenson@gmail.com" class="btn btn-secondary">Get in Touch</a>
+      </div>
+
+      <div class="hero-stats fade-in">
+        <div class="stat">
+          <div class="stat-num">±10μm</div>
+          <div class="stat-label">Encoder precision</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">$250k</div>
+          <div class="stat-label">Annual cost savings</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">10k+</div>
+          <div class="stat-label">Samples/sec logged</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3.6</div>
+          <div class="stat-label">GPA</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll to explore
+    </div>
+  </div>
+
+  <div class="full-bleed-divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">01 — Experience</p>
+    <h2>Where I've Worked</h2>
+
+    <div class="experience-grid">
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-title">Associate Mechanical Engineer</div>
+            <div class="exp-company">Brewbird — Smart Coffee Machine</div>
+          </div>
+          <div class="exp-date">May 2024 — Present · San Francisco</div>
+        </div>
+        <div class="exp-role">Mechatronics / Hardware Engineering</div>
+        <ul class="exp-bullets">
+          <li>Resolved mission-critical cross-functional issues, reducing service events and achieving an annual cost reduction of $250k.</li>
+          <li>Redesigned and validated the Pod Opener Mechanism, extending reliable operation by 500+ cups.</li>
+          <li>Developed a novel linear encoder from theory to prototype achieving ±10μm precision, improving grind size reliability and taste.</li>
+          <li>Built automated hardware test fixtures to characterize mechanism wear and identify failure modes.</li>
+          <li>Designed an optimized coffee grinder addressing loudness and inaccuracy, reducing noise by 20 dB.</li>
+        </ul>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-title">Technical Captain — Fabrication Lead</div>
+            <div class="exp-company">First Robotics — FRC Team 5940</div>
+          </div>
+          <div class="exp-date">Aug 2022 — May 2023 · San Francisco</div>
+        </div>
+        <div class="exp-role">Robotics / Team Leadership</div>
+        <ul class="exp-bullets">
+          <li>Led, taught, and managed a team of ~25 members to develop a highly competitive FRC robot.</li>
+          <li>Used SolidWorks & Onshape to design, fabricate, and realize mechanisms within strict design constraints.</li>
+          <li>Created and integrated custom sensors into multiple mechanisms to enable better control.</li>
+          <li>Achieved Curie Division Finalist and statistically 4th place on statbotics.io.</li>
+          <li>Integrated custom manufactured PCBs to alleviate I2C lockup in sensor networks.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="full-bleed-divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">02 — Projects</p>
+    <h2>What I've Built</h2>
+
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-tag">Sensors / Embedded</div>
+        <div class="project-title">Linear Capacitive Encoder</div>
+        <p class="project-desc">
+          Designed, prototyped, and validated a high-accuracy linear position sensor using plate capacitance.
+          Achieved ±10μm resolution for under $5 — born from the need for a sensor balancing size and accuracy
+          that didn't exist on the market.
+        </p>
+        <div class="project-tech">
+          <span class="tech-chip">Capacitive Sensing</span>
+          <span class="tech-chip">PCB Design</span>
+          <span class="tech-chip">Firmware</span>
+          <span class="tech-chip">Validation</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-tag">Embedded / Firmware</div>
+        <div class="project-title">ESP32 High-Speed Data Logger</div>
+        <p class="project-desc">
+          Custom ESP32 system for high-frequency, long-term data acquisition and debugging. Leveraged
+          efficient memory buffering to continuously log over 10,000 samples/second for days at a time.
+        </p>
+        <div class="project-tech">
+          <span class="tech-chip">ESP32</span>
+          <span class="tech-chip">C / Arduino-C</span>
+          <span class="tech-chip">Memory Buffering</span>
+          <span class="tech-chip">Data Acquisition</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-tag">Mechanical / Hardware</div>
+        <div class="project-title">Custom Delta 3D Printer</div>
+        <p class="project-desc">
+          Engineered a delta-style 3D printer from REV1 through REV5, iterating on movement systems, heater
+          blocks, and kinematics. Achieved faster benchmarks than comparable commercial printers. Hand-machined
+          a custom copper heater block with a 2× longer melt zone.
+        </p>
+        <div class="project-tech">
+          <span class="tech-chip">SolidWorks</span>
+          <span class="tech-chip">CNC Machining</span>
+          <span class="tech-chip">Klipper / Marlin</span>
+          <span class="tech-chip">Kinematics</span>
+          <span class="tech-chip">FEA</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-tag">Robotics / Electronics</div>
+        <div class="project-title">Smart Tongs — Food Waste Reduction</div>
+        <p class="project-desc">
+          Led a team to design and build ESP32-based smart serving tongs with a custom PCB (TEU), magnetic
+          quadrature encoder accurate to 0.1°, IMU, OLED display, haptic feedback, and WiFi/BLE connectivity.
+          Won a sustainability award.
+        </p>
+        <div class="project-tech">
+          <span class="tech-chip">ESP32-S3</span>
+          <span class="tech-chip">Custom PCB</span>
+          <span class="tech-chip">EasyEDA</span>
+          <span class="tech-chip">IMU</span>
+          <span class="tech-chip">BLE</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-tag">FRC / Mechanical</div>
+        <div class="project-title">2023 Robot — Pain d'Épi</div>
+        <p class="project-desc">
+          Designed a low-hysteresis robotic arm featuring a unique Belt-box (replacing chain to eliminate chordal
+          action). Routed power wires through the joint pivot and validated them with a custom torsional cycling
+          jig to 10,000 cycles. Also performed SOLIDWORKS FEA to lightweight swerve gears.
+        </p>
+        <div class="project-tech">
+          <span class="tech-chip">SolidWorks</span>
+          <span class="tech-chip">FEA</span>
+          <span class="tech-chip">CNC</span>
+          <span class="tech-chip">Reliability Testing</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-tag">Motor Control / Firmware</div>
+        <div class="project-title">FOC Motor Control Study</div>
+        <p class="project-desc">
+          Designed experiments and wrote firmware to develop a deep understanding of Field-Oriented Control,
+          Park-Clarke transforms, feedback controllers, and BLDC motor drivers from first principles.
+        </p>
+        <div class="project-tech">
+          <span class="tech-chip">FOC</span>
+          <span class="tech-chip">BLDC</span>
+          <span class="tech-chip">Park-Clarke</span>
+          <span class="tech-chip">C Firmware</span>
+          <span class="tech-chip">Embedded</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-tag">CAD / Mechanical</div>
+        <div class="project-title">High-Speed Core XY Printer CAD</div>
+        <p class="project-desc">
+          Developed full CAD for a record-speed 3D printer concept, with a focus on structural stiffness,
+          moving mass reduction, and dynamic performance modeling.
+        </p>
+        <div class="project-tech">
+          <span class="tech-chip">SolidWorks</span>
+          <span class="tech-chip">OnShape</span>
+          <span class="tech-chip">Dynamics</span>
+          <span class="tech-chip">DFM</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-tag">Product Design</div>
+        <div class="project-title">Shane's Barbershop Clipper Guard</div>
+        <p class="project-desc">
+          Collaborated with a local barber to convert qualitative feedback into a robust product design. Designed
+          for additive manufacturing with production-reliability rules. Approximately 500 units produced and sold.
+        </p>
+        <div class="project-tech">
+          <span class="tech-chip">3D Printing</span>
+          <span class="tech-chip">DFM</span>
+          <span class="tech-chip">Product Design</span>
+          <span class="tech-chip">SolidWorks</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="full-bleed-divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">03 — Skills</p>
+    <h2>Tools & Technologies</h2>
+
+    <div class="skills-layout">
+      <div class="skill-group">
+        <div class="skill-group-label">CAD & Simulation</div>
+        <div class="skill-list">
+          <span class="skill-pill">SolidWorks</span>
+          <span class="skill-pill">OnShape</span>
+          <span class="skill-pill">FEA</span>
+          <span class="skill-pill">SOLIDWORKS Simulation</span>
+          <span class="skill-pill">Technical Drafting</span>
+          <span class="skill-pill">GD&T</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Embedded & Firmware</div>
+        <div class="skill-list">
+          <span class="skill-pill">C</span>
+          <span class="skill-pill">Arduino-C</span>
+          <span class="skill-pill">ESP32</span>
+          <span class="skill-pill">Verilog</span>
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">MATLAB</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Electronics & PCB</div>
+        <div class="skill-list">
+          <span class="skill-pill">Schematic Capture</span>
+          <span class="skill-pill">EasyEDA</span>
+          <span class="skill-pill">SiMetrix (SPICE)</span>
+          <span class="skill-pill">Custom PCB Layout</span>
+          <span class="skill-pill">Sensor Integration</span>
+          <span class="skill-pill">Motor Drivers</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Manufacturing</div>
+        <div class="skill-list">
+          <span class="skill-pill">CNC Machining</span>
+          <span class="skill-pill">3D Printing</span>
+          <span class="skill-pill">Injection Molding</span>
+          <span class="skill-pill">Rapid Prototyping</span>
+          <span class="skill-pill">Fixture Design</span>
+          <span class="skill-pill">Hand Machining</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="full-bleed-divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">04 — About</p>
+    <h2>A Bit About Me</h2>
+
+    <div class="about-layout">
+      <div class="about-sidebar">
+        <div class="about-education">
+          <div class="edu-school">University of Colorado Boulder</div>
+          <div class="edu-degree">
+            B.S. Mechanical Engineering<br>
+            B.S. Electrical Engineering<br>
+            Junior Standing
+          </div>
+          <div class="edu-gpa">GPA: 3.6</div>
+        </div>
+
+        <div class="about-contact">
+          <a href="mailto:maxwellgoldenson@gmail.com" class="contact-item">
+            <span class="contact-icon">@</span>
+            maxwellgoldenson@gmail.com
+          </a>
+          <a href="tel:16506653003" class="contact-item">
+            <span class="contact-icon">#</span>
+            +1 (650) 665-3003
+          </a>
+          <a href="https://linkedin.com/in/maxwell-goldenson-5a8487250" target="_blank" class="contact-item">
+            <span class="contact-icon">in</span>
+            LinkedIn Profile
+          </a>
+          <a href="https://maxgoldenson.com" target="_blank" class="contact-item">
+            <span class="contact-icon">↗</span>
+            maxgoldenson.com
+          </a>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <p>
+          I'm a <strong>robotics and mechatronics engineer</strong> pursuing dual degrees in Mechanical and
+          Electrical Engineering at CU Boulder. My work sits at the intersection of precision mechanisms,
+          embedded electronics, sensors, and control systems.
+        </p>
+        <p>
+          At <strong>Brewbird</strong>, I've worked on every layer of a commercially deployed smart coffee
+          machine — from redesigning load-bearing mechanisms and developing novel encoder technology to building
+          automated test fixtures that surface hidden failure modes. I thrive on problems that don't have
+          off-the-shelf solutions.
+        </p>
+        <p>
+          My personal projects reflect the same drive: a custom delta 3D printer iterated through five major
+          revisions, a sub-$5 linear encoder accurate to ±10μm, smart food-waste-reducing tongs with a custom
+          PCB, and deep dives into FOC motor control from first principles.
+        </p>
+        <p>
+          Outside the lab, I've led and mentored a 25-person competitive robotics team, competed in FRC at
+          the national level, and built everything from electric skateboards to onewheel clones. I believe the
+          best engineers build things — and then iterate until they actually work.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="full-bleed-divider"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Maxwell Goldenson</span>
+    <span>Built for GitHub Pages · <a href="mailto:maxwellgoldenson@gmail.com">maxwellgoldenson@gmail.com</a></span>
+  </footer>
+
+</body>
+</html>

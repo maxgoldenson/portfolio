@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Custom Delta 3D Printer — Max Goldenson</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0a0a0f;--bg2:#111118;--surface:#16161f;--surface2:#1e1e2a;--border:#2a2a3a;--accent:#e8ff47;--accent2:#47c8ff;--text:#e8e8f0;--text-dim:#888898;--text-dimmer:#444455;--mono:'Space Mono',monospace;--sans:'Syne',sans-serif;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.88);backdrop-filter:blur(12px);}
+    .nav-logo{font-family:var(--mono);font-size:0.85rem;color:var(--accent);letter-spacing:0.08em;text-decoration:none;}.nav-back{font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}.nav-back:hover{color:var(--accent);}
+    .project-hero{padding:9rem 3rem 5rem;max-width:900px;margin:0 auto;}.back-crumb{font-family:var(--mono);font-size:0.68rem;color:var(--text-dimmer);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2rem;}.back-crumb a{color:var(--text-dimmer);text-decoration:none;transition:color 0.2s;}.back-crumb a:hover{color:var(--accent);}
+    .project-category{font-family:var(--mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;}
+    .project-hero h1{font-family:var(--sans);font-size:clamp(2.2rem,5vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;}.project-tagline{font-size:1.1rem;line-height:1.7;color:var(--text-dim);max-width:620px;margin-bottom:2.5rem;}
+    .meta-row{display:flex;flex-wrap:wrap;gap:2rem;padding:1.5rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}.meta-label{font-family:var(--mono);font-size:0.6rem;color:var(--text-dimmer);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.3rem;}.meta-value{font-family:var(--mono);font-size:0.8rem;color:var(--text);}
+    .project-content{max-width:900px;margin:0 auto;padding:0 3rem 6rem;}.case-section{padding:4rem 0;border-bottom:1px solid var(--border);}.case-section:last-child{border-bottom:none;}
+    .section-eyebrow{font-family:var(--mono);font-size:0.65rem;color:var(--accent);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;}.section-eyebrow::after{content:'';flex:1;height:1px;background:var(--border);}
+    .case-section h2{font-family:var(--sans);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;line-height:1.1;}.case-section p{font-size:0.95rem;line-height:1.8;color:var(--text-dim);margin-bottom:1rem;max-width:680px;}.case-section p strong{color:var(--text);}.case-section p:last-child{margin-bottom:0;}
+    .img-grid{display:grid;gap:1rem;margin:2rem 0;}.img-grid.cols-2{grid-template-columns:1fr 1fr;}.img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+    .img-slot{background:var(--surface);border:1px dashed var(--border);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;position:relative;overflow:hidden;}.img-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}.img-slot-label{font-family:var(--mono);font-size:0.6rem;color:var(--text-dimmer);letter-spacing:0.15em;text-transform:uppercase;text-align:center;padding:0 1rem;}.img-slot-icon{font-size:1.5rem;opacity:0.2;}
+    .callout{background:var(--surface);border-left:3px solid var(--accent);padding:1.5rem 2rem;margin:2rem 0;}.callout p{font-size:1rem;line-height:1.7;color:var(--text);font-style:italic;margin:0;max-width:none;}
+    .rev-timeline{display:flex;flex-direction:column;gap:0;margin:2rem 0;}
+    .rev-item{display:grid;grid-template-columns:5rem 1fr;border-bottom:1px solid var(--border);}
+    .rev-item:last-child{border-bottom:none;}
+    .rev-label{font-family:var(--mono);font-size:0.72rem;color:var(--accent);padding:1.25rem 1rem 1.25rem 0;border-right:1px solid var(--border);letter-spacing:0.08em;}
+    .rev-content{padding:1.25rem 0 1.25rem 1.5rem;}
+    .rev-content h4{font-size:0.9rem;font-weight:700;margin-bottom:0.3rem;}
+    .rev-content p{font-size:0.82rem;line-height:1.6;color:var(--text-dim);margin:0;}
+    .impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);margin:2rem 0;}.impact-stat{background:var(--bg2);padding:1.75rem 1.5rem;}.impact-num{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--accent);line-height:1;margin-bottom:0.4rem;}.impact-label{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);letter-spacing:0.15em;text-transform:uppercase;line-height:1.5;}
+    .tech-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}.tech-chip{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.05em;color:var(--text-dimmer);border:1px solid var(--border);padding:0.2rem 0.55rem;}
+    .project-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:4rem;}.proj-nav-link{background:var(--bg2);padding:1.75rem 2rem;text-decoration:none;color:inherit;transition:background 0.2s;}.proj-nav-link:hover{background:var(--surface);}.proj-nav-dir{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}.proj-nav-title{font-size:0.95rem;font-weight:700;color:var(--text);}.proj-nav-link.next{text-align:right;}
+    footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}footer span{font-family:var(--mono);font-size:0.65rem;color:var(--text-dimmer);letter-spacing:0.1em;}footer a{color:var(--accent);text-decoration:none;}
+    @media(max-width:768px){nav{padding:1rem 1.5rem;}.project-hero,.project-content{padding-left:1.5rem;padding-right:1.5rem;}.img-grid.cols-2,.img-grid.cols-3{grid-template-columns:1fr;}.project-nav{grid-template-columns:1fr;}.proj-nav-link.next{text-align:left;}}
+  </style>
+</head>
+<body>
+<nav><a href="../index.html" class="nav-logo">MG_PORTFOLIO</a><a href="../index.html#projects" class="nav-back">← All Projects</a></nav>
+
+<div class="project-hero">
+  <div class="back-crumb"><a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / Delta 3D Printer</div>
+  <div class="project-category">Mechanical / Hardware</div>
+  <h1>Custom Delta 3D Printer</h1>
+  <p class="project-tagline">A ground-up delta printer engineered for speed and repeatability, iterated through 5 major revisions — from magnetic joints that failed to a machine that outprints commercial equivalents.</p>
+  <div class="meta-row">
+    <div class="meta-item"><div class="meta-label">Revisions</div><div class="meta-value">REV 1 → REV 5</div></div>
+    <div class="meta-item"><div class="meta-label">Goal</div><div class="meta-value">Speed benchmark</div></div>
+    <div class="meta-item"><div class="meta-label">Heater block</div><div class="meta-value">Hand-machined copper</div></div>
+    <div class="meta-item"><div class="meta-label">Type</div><div class="meta-value">Personal project</div></div>
+  </div>
+</div>
+
+<div class="project-content">
+
+  <div class="case-section">
+    <p class="section-eyebrow">01 — Problem</p>
+    <h2>Delta printers are fast — but finicky</h2>
+    <p>Delta 3D printers can move faster than Cartesian printers because the print head is lighter and motion is distributed across three lightweight arms. But they have a fundamental challenge: <strong>everything depends on tolerance stack</strong>. Even a 0.01" inconsistency in arm length translates directly into a non-flat print surface.</p>
+    <p>Commercially available deltas compromise on flow rate (short melt zones), joint precision (magnetic connections that disconnect under acceleration), and part cooling. I wanted to build one that solved all three.</p>
+    <div class="callout"><p>"Magnetic joints were prone to disconnect under high acceleration. Arms were ±1/16" — terrible for high precision work."</p></div>
+    <div class="img-grid cols-2">
+      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: REV 1 assembled printer</span></div>
+      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: failed print showing leveling issues</span></div>
+    </div>
+  </div>
+
+  <div class="case-section">
+    <p class="section-eyebrow">02 — Process</p>
+    <h2>Five revisions of systematic improvement</h2>
+    <p>Each revision targeted the highest-impact failure mode identified in testing. The process was methodical: observe failure → identify root cause → design fix → validate.</p>
+
+    <div class="rev-timeline">
+      <div class="rev-item">
+        <div class="rev-label">REV 1</div>
+        <div class="rev-content"><h4>Initial build — proof of motion</h4><p>First functional delta with magnetic joints, 3D-printed PLA arms, and a basic hotend. Achieved movement but revealed: magnetic disconnects under acceleration, conical bed-level error, no part cooling, and poor first-layer adhesion.</p></div>
+      </div>
+      <div class="rev-item">
+        <div class="rev-label">REV 2</div>
+        <div class="rev-content"><h4>Ball joint clevis arms + copper heater block</h4><p>Replaced magnets with ball joint clevises. Hand-machined a custom copper heater block with 2× longer melt zone for higher flow. Added dual fan part cooling. Resolved power supply issues from higher cooling load.</p></div>
+      </div>
+      <div class="rev-item">
+        <div class="rev-label">REV 3–4</div>
+        <div class="rev-content"><h4>Movement system overhaul</h4><p>Discovered a "virtual uneven four-bar" caused by 0.01" print orientation variance in plastic parts. Switched to commercial cup-ball-joint arms for true axial tolerance. Spaced arm mounting points 2× farther apart to geometrically reduce the conical effect. Fixed bed leveling sensor mounting.</p></div>
+      </div>
+      <div class="rev-item">
+        <div class="rev-label">REV 5</div>
+        <div class="rev-content"><h4>Software & geometry tuning</h4><p>Manually probed 20+ points on the bed and iterated a "reality tune" — a software geometry description that accounts for real-world deviations from CAD. Achieved consistent first layers. Attempted and validated speed benchy.</p></div>
+      </div>
+    </div>
+
+    <div class="img-grid cols-3">
+      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: copper heater block vs standard</span></div>
+      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: REV 2 ball joint end effector</span></div>
+      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: REV 5 printing a benchy</span></div>
+    </div>
+  </div>
+
+  <div class="case-section">
+    <p class="section-eyebrow">03 — Solution</p>
+    <h2>A machine designed around its own weaknesses</h2>
+    <p>The final printer uses commercial cup-ball-joint carbon fiber arms (consistent to &lt;0.005"), a hand-machined copper heater block with a 2× extended melt zone, dual-fan radial part cooling, and a magnetic spring-steel print surface for easy part removal.</p>
+    <p>The custom heater block alone enables <strong>2–3× higher volumetric flow</strong> than stock hotends, which is the primary limiter of print speed at high acceleration.</p>
+    <div class="img-grid cols-2">
+      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: final REV 5 printer full view</span></div>
+      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: speed benchy print result</span></div>
+    </div>
+    <div class="tech-row">
+      <span class="tech-chip">SolidWorks</span><span class="tech-chip">Hand Machining</span><span class="tech-chip">Klipper</span><span class="tech-chip">Delta Kinematics</span><span class="tech-chip">FEA</span><span class="tech-chip">GD&T</span><span class="tech-chip">Python (calibration)</span>
+    </div>
+  </div>
+
+  <div class="case-section">
+    <p class="section-eyebrow">04 — Impact</p>
+    <h2>Faster than commercial. Built from scratch.</h2>
+    <div class="impact-grid">
+      <div class="impact-stat"><div class="impact-num">5</div><div class="impact-label">Major design revisions</div></div>
+      <div class="impact-stat"><div class="impact-num">2–3×</div><div class="impact-label">Flow rate vs stock hotend</div></div>
+      <div class="impact-stat"><div class="impact-num">0.005"</div><div class="impact-label">Arm length tolerance</div></div>
+    </div>
+    <p>The project spans multiple years of iterative engineering, and every revision taught something distinct — from kinematic geometry and tolerance stack to firmware calibration and thermal design. The copper heater block design directly influenced how I think about heat transfer constraints in Brewbird hardware.</p>
+  </div>
+
+  <div class="project-nav">
+    <a href="data-logger.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">ESP32 Data Logger</div></a>
+    <a href="smart-tongs.html" class="proj-nav-link next"><div class="proj-nav-dir">Next →</div><div class="proj-nav-title">Smart Tongs</div></a>
+  </div>
+</div>
+
+<footer><span>© 2026 Maxwell Goldenson</span><span><a href="../index.html">← Back to Portfolio</a></span></footer>
+</body>
+</html>

@@ -395,7 +395,10 @@
       position: relative;
       overflow: hidden;
       transition: background 0.2s;
-      cursor: default;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
 
     .project-card:hover { background: var(--surface); }
@@ -411,6 +414,23 @@
     }
 
     .project-card:hover::before { height: 100%; }
+
+    .project-arrow {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dimmer);
+      letter-spacing: 0.1em;
+      margin-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+
+    .project-card:hover .project-arrow {
+      color: var(--accent);
+      gap: 0.65rem;
+    }
 
     .project-tag {
       font-family: var(--mono);
@@ -669,7 +689,7 @@
       </p>
       <div class="hero-cta fade-in">
         <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="mailto:maxwellgoldenson@gmail.com" class="btn btn-secondary">Get in Touch</a>
+        <a href="/cdn-cgi/l/email-protection#3f525e47485a53535850535b5a514c50517f58525e5653115c5052" class="btn btn-secondary">Get in Touch</a>
       </div>
 
       <div class="hero-stats fade-in">
@@ -755,7 +775,7 @@
 
     <div class="projects-grid">
 
-      <div class="project-card">
+      <a href="projects/linear-encoder.html" class="project-card">
         <div class="project-tag">Sensors / Embedded</div>
         <div class="project-title">Linear Capacitive Encoder</div>
         <p class="project-desc">
@@ -769,9 +789,10 @@
           <span class="tech-chip">Firmware</span>
           <span class="tech-chip">Validation</span>
         </div>
-      </div>
+        <div class="project-arrow">View Case Study →</div>
+      </a>
 
-      <div class="project-card">
+      <a href="projects/data-logger.html" class="project-card">
         <div class="project-tag">Embedded / Firmware</div>
         <div class="project-title">ESP32 High-Speed Data Logger</div>
         <p class="project-desc">
@@ -784,9 +805,10 @@
           <span class="tech-chip">Memory Buffering</span>
           <span class="tech-chip">Data Acquisition</span>
         </div>
-      </div>
+        <div class="project-arrow">View Case Study →</div>
+      </a>
 
-      <div class="project-card">
+      <a href="projects/delta-printer.html" class="project-card">
         <div class="project-tag">Mechanical / Hardware</div>
         <div class="project-title">Custom Delta 3D Printer</div>
         <p class="project-desc">
@@ -801,9 +823,10 @@
           <span class="tech-chip">Kinematics</span>
           <span class="tech-chip">FEA</span>
         </div>
-      </div>
+        <div class="project-arrow">View Case Study →</div>
+      </a>
 
-      <div class="project-card">
+      <a href="projects/smart-tongs.html" class="project-card">
         <div class="project-tag">Robotics / Electronics</div>
         <div class="project-title">Smart Tongs — Food Waste Reduction</div>
         <p class="project-desc">
@@ -818,9 +841,10 @@
           <span class="tech-chip">IMU</span>
           <span class="tech-chip">BLE</span>
         </div>
-      </div>
+        <div class="project-arrow">View Case Study →</div>
+      </a>
 
-      <div class="project-card">
+      <a href="projects/pain-depi.html" class="project-card">
         <div class="project-tag">FRC / Mechanical</div>
         <div class="project-title">2023 Robot — Pain d'Épi</div>
         <p class="project-desc">
@@ -834,9 +858,10 @@
           <span class="tech-chip">CNC</span>
           <span class="tech-chip">Reliability Testing</span>
         </div>
-      </div>
+        <div class="project-arrow">View Case Study →</div>
+      </a>
 
-      <div class="project-card">
+      <a href="projects/foc-study.html" class="project-card">
         <div class="project-tag">Motor Control / Firmware</div>
         <div class="project-title">FOC Motor Control Study</div>
         <p class="project-desc">
@@ -850,9 +875,10 @@
           <span class="tech-chip">C Firmware</span>
           <span class="tech-chip">Embedded</span>
         </div>
-      </div>
+        <div class="project-arrow">View Case Study →</div>
+      </a>
 
-      <div class="project-card">
+      <a href="projects/corexy-printer.html" class="project-card">
         <div class="project-tag">CAD / Mechanical</div>
         <div class="project-title">High-Speed Core XY Printer CAD</div>
         <p class="project-desc">
@@ -865,9 +891,10 @@
           <span class="tech-chip">Dynamics</span>
           <span class="tech-chip">DFM</span>
         </div>
-      </div>
+        <div class="project-arrow">View Case Study →</div>
+      </a>
 
-      <div class="project-card">
+      <a href="projects/clipper-guard.html" class="project-card">
         <div class="project-tag">Product Design</div>
         <div class="project-title">Shane's Barbershop Clipper Guard</div>
         <p class="project-desc">
@@ -880,7 +907,8 @@
           <span class="tech-chip">Product Design</span>
           <span class="tech-chip">SolidWorks</span>
         </div>
-      </div>
+        <div class="project-arrow">View Case Study →</div>
+      </a>
 
     </div>
   </section>
@@ -960,9 +988,9 @@
         </div>
 
         <div class="about-contact">
-          <a href="mailto:maxwellgoldenson@gmail.com" class="contact-item">
+          <a href="/cdn-cgi/l/email-protection#bdd0dcc5cad8d1d1dad2d1d9d8d3ced2d3fddad0dcd4d193ded2d0" class="contact-item">
             <span class="contact-icon">@</span>
-            maxwellgoldenson@gmail.com
+            <span class="__cf_email__" data-cfemail="315c504946545d5d565e5d55545f425e5f71565c50585d1f525e5c">[email&#160;protected]</span>
           </a>
           <a href="tel:16506653003" class="contact-item">
             <span class="contact-icon">#</span>
@@ -1008,10 +1036,4 @@
   <div class="full-bleed-divider"></div>
 
   <!-- FOOTER -->
-  <footer>
-    <span>© 2026 Maxwell Goldenson</span>
-    <span>Built for GitHub Pages · <a href="mailto:maxwellgoldenson@gmail.com">maxwellgoldenson@gmail.com</a></span>
-  </footer>
-
-</body>
-</html>
+  <

@@ -75,8 +75,10 @@
     .img-wrap.ratio-square { aspect-ratio: 4 / 3; }
     /* 2:1 wide */
     .img-wrap.ratio-2x1 { aspect-ratio: 2 / 1; }
-    /* Portrait — firmware flowchart 502×681 */
-    .img-wrap.ratio-flowchart { aspect-ratio: 502 / 681; }
+    /* Portrait — firmware flowchart 502×681 at 60% width, centered */
+    .img-wrap.ratio-flowchart { aspect-ratio: 502 / 681; width: 60%; margin: 0 auto; }
+    /* Wide data output plot 1404×535 */
+    .img-wrap.ratio-dataplot { aspect-ratio: 1404 / 535; }
 
     .img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
     .img-wrap img.loaded + .img-placeholder { display: none; }
@@ -456,7 +458,7 @@
     <p>The Python post-processing script decodes binary logs, reconstructs timestamped time series, and plots annotated events — making it easy to share findings with teammates who aren't embedded engineers.</p>
 
     <figure class="img-figure">
-      <div class="img-wrap">
+      <div class="img-wrap ratio-dataplot">
         <img src="../images/data-logger/06-data-output.jpg" alt="Sample data output / plot">
         <div class="img-placeholder">
           <span class="placeholder-icon">📷</span>

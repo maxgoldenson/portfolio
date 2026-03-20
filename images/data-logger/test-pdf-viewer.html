@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF Viewer — Unit Test</title>
+  <style>
+    body { background: #0a0a0f; color: #e8e8f0; font-family: 'Courier New', monospace; padding: 2rem; }
+    h1 { font-size: 1rem; color: #e8ff47; margin-bottom: 2rem; letter-spacing: 0.1em; }
+    .test { padding: 0.75rem 1rem; border: 1px solid #2a2a3a; margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 1rem; }
+    .status { font-size: 0.8rem; width: 6rem; flex-shrink: 0; padding-top: 0.05rem; }
+    .status.pass  { color: #47ff7a; }
+    .status.fail  { color: #ff4747; }
+    .status.warn  { color: #ffb347; }
+    .status.run   { color: #888898; }
+    .label { font-size: 0.8rem; color: #e8e8f0; line-height: 1.5; }
+    .detail { font-size: 0.7rem; color: #888898; margin-top: 0.25rem; word-break: break-all; }
+    .section { font-size: 0.65rem; color: #444455; letter-spacing: 0.2em; text-transform: uppercase; margin: 1.5rem 0 0.5rem; }
+    #pdfCanvas { border: 1px solid #2a2a3a; max-width: 100%; margin-top: 1rem; display: none; }
+    #renderBox { margin-top: 1rem; }
+    .summary { margin-top: 2rem; padding: 1rem; border: 1px solid #2a2a3a; font-size: 0.8rem; }
+    .summary .pass { color: #47ff7a; }
+    .summary .fail { color: #ff4747; }
+    .summary .warn { color: #ffb347; }
+  </style>
+</head>
+<body>
+
+<h1>// PDF VIEWER — UNIT TEST</h1>
+<p style="font-size:0.7rem;color:#888898;margin-bottom:2rem;">
+  Open this file from your local repo or GitHub Pages.<br>
+  Place <strong style="color:#e8ff47">schematic.pdf</strong> in the same folder as this file to run all tests.
+</p>
+
+<div class="section">1 — Environment</div>
+<div id="tests-env"></div>
+
+<div class="section">2 — PDF.js Library Load</div>
+<div id="tests-lib"></div>
+
+<div class="section">3 — PDF File Fetch</div>
+<div id="tests-fetch"></div>
+
+<div class="section">4 — PDF Parse & Render</div>
+<div id="tests-render"></div>
+
+<div id="renderBox">
+  <canvas id="pdfCanvas"></canvas>
+</div>
+
+<div class="summary" id="summary" style="display:none"></div>
+
+<script>
+  const PDFJS_VERSION = '2.16.105';
+  const PDFJS_CDN     = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}`;
+  const PDF_PATH      = './schematic.pdf'; // same folder as this test file
+
+  let passed = 0, failed = 0, warned = 0;
+
+  function addTest(containerId, label, status, detail = '') {
+    const el = document.getElementById(containerId);
+    const div = document.createElement('div');
+    div.className = 'test';
+
+    const s = document.createElement('div');
+    s.className = `status ${status}`;
+    s.textContent = status === 'pass' ? '✓ PASS'
+                  : status === 'fail' ? '✗ FAIL'
+                  : status === 'warn' ? '⚠ WARN'
+                  : '… RUN';
+    div.appendChild(s);
+
+    const r = document.createElement('div');
+    r.innerHTML = `<div class="label">${label}</div>${detail ? `<div class="detail">${detail}</div>` : ''}`;
+    div.appendChild(r);
+    el.appendChild(div);
+
+    if (status === 'pass') passed++;
+    else if (status === 'fail') failed++;
+    else if (status === 'warn') warned++;
+
+    return div; // return so caller can update it
+  }
+
+  function updateTest(div, status, detail) {
+    const s = div.querySelector('.status');
+    s.className = `status ${status}`;
+    s.textContent = status === 'pass' ? '✓ PASS'
+                  : status === 'fail' ? '✗ FAIL'
+                  : status === 'warn' ? '⚠ WARN' : '… RUN';
+    if (detail) {
+      let d = div.querySelector('.detail');
+      if (!d) { d = document.createElement('div'); d.className = 'detail'; div.querySelector('.label').after(d); }
+      d.textContent = detail;
+    }
+    if (status === 'pass') passed++;
+    else if (status === 'fail') failed++;
+    else if (status === 'warn') warned++;
+  }
+
+  function showSummary() {
+    const el = document.getElementById('summary');
+    el.style.display = 'block';
+    el.innerHTML = `
+      <span class="pass">✓ ${passed} passed</span> &nbsp;
+      <span class="fail">✗ ${failed} failed</span> &nbsp;
+      <span class="warn">⚠ ${warned} warnings</span>
+      ${failed > 0 ? '<div style="margin-top:0.75rem;color:#ff4747;font-size:0.7rem;">See FAIL rows above — fix those first before debugging the main page.</div>' : ''}
+      ${failed === 0 && warned === 0 ? '<div style="margin-top:0.75rem;color:#47ff7a;font-size:0.7rem;">All tests passed. The viewer should work in data-logger.html.</div>' : ''}
+    `;
+  }
+
+  async function runTests() {
+
+    // ── 1. ENVIRONMENT ───────────────────────────────────────────────────────
+
+    // Browser canvas support
+    try {
+      const c = document.createElement('canvas');
+      c.getContext('2d');
+      addTest('tests-env', 'Canvas 2D API available', 'pass');
+    } catch(e) {
+      addTest('tests-env', 'Canvas 2D API available', 'fail', e.message);
+    }
+
+    // Page served over http/https (not file://)
+    const proto = window.location.protocol;
+    if (proto === 'http:' || proto === 'https:') {
+      addTest('tests-env', `Page served over ${proto} (required for PDF fetch)`, 'pass', window.location.href);
+    } else {
+      addTest('tests-env', 'Page served over http/https', 'fail',
+        `Currently: ${proto}// — PDF.js cannot fetch files over file://. ` +
+        `Serve this folder with a local server or push to GitHub Pages.`);
+    }
+
+    // Origin (helps spot CORS issues)
+    addTest('tests-env', 'Current origin', 'warn', window.location.origin + ' (WARN = informational only)');
+    warned--; // don't count this as a real warning
+
+    // ── 2. PDF.JS LIBRARY LOAD ───────────────────────────────────────────────
+
+    const libDiv = addTest('tests-lib',
+      `Load PDF.js ${PDFJS_VERSION} from jsDelivr`, 'run',
+      `${PDFJS_CDN}/build/pdf.min.js`);
+
+    await new Promise((resolve) => {
+      const s = document.createElement('script');
+      s.src = `${PDFJS_CDN}/build/pdf.min.js`;
+      s.onload = () => {
+        updateTest(libDiv, 'pass', `Loaded — pdfjsLib v${pdfjsLib.version}`);
+        resolve();
+      };
+      s.onerror = (e) => {
+        updateTest(libDiv, 'fail', 'Script failed to load. Check network / ad-blocker.');
+        resolve(); // continue other tests
+      };
+      document.head.appendChild(s);
+    });
+
+    // Check version matches what we requested
+    if (window.pdfjsLib) {
+      if (pdfjsLib.version === PDFJS_VERSION) {
+        addTest('tests-lib', `Library version matches pinned version (${PDFJS_VERSION})`, 'pass');
+      } else {
+        addTest('tests-lib', 'Library version matches pinned version', 'warn',
+          `Got ${pdfjsLib.version}, expected ${PDFJS_VERSION} — may still work`);
+      }
+
+      // Set worker
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_CDN}/build/pdf.worker.min.js`;
+      addTest('tests-lib', 'Worker URL set', 'pass',
+        pdfjsLib.GlobalWorkerOptions.workerSrc);
+    }
+
+    // ── 3. PDF FILE FETCH ────────────────────────────────────────────────────
+
+    const fetchDiv = addTest('tests-fetch',
+      `Fetch ${PDF_PATH}`, 'run', 'Checking if the file exists and is accessible...');
+
+    let pdfResponse;
+    try {
+      pdfResponse = await fetch(PDF_PATH, { method: 'HEAD' });
+      if (pdfResponse.ok) {
+        const ct = pdfResponse.headers.get('content-type') || '(no content-type header)';
+        updateTest(fetchDiv, 'pass',
+          `HTTP ${pdfResponse.status} — Content-Type: ${ct}`);
+
+        // MIME type check
+        if (ct.includes('pdf')) {
+          addTest('tests-fetch', 'Content-Type includes "pdf"', 'pass', ct);
+        } else {
+          addTest('tests-fetch', 'Content-Type includes "pdf"', 'warn',
+            `Got: ${ct} — PDF.js can usually handle this anyway, but check the file extension`);
+        }
+      } else {
+        updateTest(fetchDiv, 'fail',
+          `HTTP ${pdfResponse.status} — File not found or server error. ` +
+          `Make sure schematic.pdf is in the same folder as this HTML file.`);
+      }
+    } catch(e) {
+      updateTest(fetchDiv, 'fail', `Fetch threw: ${e.message}`);
+    }
+
+    // ── 4. PDF PARSE & RENDER ────────────────────────────────────────────────
+
+    if (!window.pdfjsLib || !pdfResponse?.ok) {
+      addTest('tests-render', 'Skipped — prerequisites above failed', 'warn');
+      showSummary();
+      return;
+    }
+
+    // Parse
+    const parseDiv = addTest('tests-render', 'Parse PDF with pdfjsLib.getDocument()', 'run');
+    let pdfDoc;
+    try {
+      pdfDoc = await pdfjsLib.getDocument(PDF_PATH).promise;
+      updateTest(parseDiv, 'pass', `${pdfDoc.numPages} page(s) found`);
+      addTest('tests-render', `Page count: ${pdfDoc.numPages}`, 'pass');
+    } catch(e) {
+      updateTest(parseDiv, 'fail', `pdfjsLib.getDocument() threw: ${e.message}`);
+      showSummary();
+      return;
+    }
+
+    // Render page 1
+    const renderDiv = addTest('tests-render', 'Render page 1 to canvas', 'run');
+    try {
+      const page     = await pdfDoc.getPage(1);
+      const viewport = page.getViewport({ scale: 1.0 });
+      const canvas   = document.getElementById('pdfCanvas');
+      const ctx      = canvas.getContext('2d');
+      canvas.width   = viewport.width;
+      canvas.height  = viewport.height;
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      canvas.style.display = 'block';
+      updateTest(renderDiv, 'pass',
+        `Page 1 rendered at scale 1.0 — ${viewport.width}×${viewport.height}px. ` +
+        `You should see your schematic below.`);
+    } catch(e) {
+      updateTest(renderDiv, 'fail', `Render threw: ${e.message}`);
+    }
+
+    showSummary();
+  }
+
+  runTests();
+</script>
+</body>
+</html>

@@ -3,295 +3,626 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ESP32 High-Speed Data Logger — Max Goldenson</title>
+  <title>ESP32 Data Logger — Max Goldenson</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:#0a0a0f;--bg2:#111118;--surface:#16161f;--surface2:#1e1e2a;
-      --border:#2a2a3a;--accent:#e8ff47;--accent2:#47c8ff;
-      --text:#e8e8f0;--text-dim:#888898;--text-dimmer:#444455;
-      --mono:'Space Mono',monospace;--sans:'Syne',sans-serif;
+      --bg: #0a0a0f; --bg2: #111118; --surface: #16161f; --surface2: #1e1e2a;
+      --border: #2a2a3a; --accent: #e8ff47; --accent2: #47c8ff;
+      --text: #e8e8f0; --text-dim: #888898; --text-dimmer: #444455;
+      --mono: 'Space Mono', monospace; --sans: 'Syne', sans-serif;
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
-    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.03;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
     /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;
-      justify-content:space-between;padding:1.2rem 3rem;border-bottom:1px solid var(--border);
-      background:rgba(10,10,15,0.88);backdrop-filter:blur(12px);}
-    .nav-logo{font-family:var(--mono);font-size:0.85rem;color:var(--accent);letter-spacing:0.08em;text-decoration:none;}
-    .nav-back{font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none;
-      letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
-    .nav-back:hover{color:var(--accent);}
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 3rem; border-bottom: 1px solid var(--border); background: rgba(10,10,15,0.88); backdrop-filter: blur(12px); }
+    .nav-logo { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); letter-spacing: 0.08em; text-decoration: none; }
+    .nav-back { font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+
     /* HERO */
-    .project-hero{padding:9rem 3rem 5rem;max-width:900px;margin:0 auto;}
-    .back-crumb{font-family:var(--mono);font-size:0.68rem;color:var(--text-dimmer);letter-spacing:0.15em;
-      text-transform:uppercase;margin-bottom:2rem;}
-    .back-crumb a{color:var(--text-dimmer);text-decoration:none;transition:color 0.2s;}
-    .back-crumb a:hover{color:var(--accent);}
-    .project-category{font-family:var(--mono);font-size:0.7rem;color:var(--accent2);
-      letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;}
-    .project-hero h1{font-family:var(--sans);font-size:clamp(2.2rem,5vw,4rem);font-weight:800;
-      line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;}
-    .project-tagline{font-size:1.1rem;line-height:1.7;color:var(--text-dim);max-width:620px;margin-bottom:2.5rem;}
-    .meta-row{display:flex;flex-wrap:wrap;gap:2rem;padding:1.5rem 0;
-      border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-    .meta-label{font-family:var(--mono);font-size:0.6rem;color:var(--text-dimmer);
-      letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.3rem;}
-    .meta-value{font-family:var(--mono);font-size:0.8rem;color:var(--text);}
+    .project-hero { padding: 9rem 3rem 5rem; max-width: 900px; margin: 0 auto; }
+    .back-crumb { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dimmer); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem; }
+    .back-crumb a { color: var(--text-dimmer); text-decoration: none; transition: color 0.2s; }
+    .back-crumb a:hover { color: var(--accent); }
+    .project-category { font-family: var(--mono); font-size: 0.7rem; color: var(--accent2); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .project-hero h1 { font-family: var(--sans); font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .project-tagline { font-size: 1.1rem; line-height: 1.7; color: var(--text-dim); max-width: 620px; margin-bottom: 2.5rem; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .meta-label { font-family: var(--mono); font-size: 0.6rem; color: var(--text-dimmer); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .meta-value { font-family: var(--mono); font-size: 0.8rem; color: var(--text); }
+
     /* CONTENT */
-    .project-content{max-width:900px;margin:0 auto;padding:0 3rem 6rem;}
-    .case-section{padding:4rem 0;border-bottom:1px solid var(--border);}
-    .case-section:last-child{border-bottom:none;}
-    .section-eyebrow{font-family:var(--mono);font-size:0.65rem;color:var(--accent);
-      letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.75rem;
-      display:flex;align-items:center;gap:0.75rem;}
-    .section-eyebrow::after{content:'';flex:1;height:1px;background:var(--border);}
-    .case-section h2{font-family:var(--sans);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;
-      letter-spacing:-0.02em;margin-bottom:1.5rem;line-height:1.1;}
-    .case-section p{font-size:0.95rem;line-height:1.8;color:var(--text-dim);margin-bottom:1rem;max-width:680px;}
-    .case-section p strong{color:var(--text);}
-    .case-section p:last-child{margin-bottom:0;}
+    .project-content { max-width: 900px; margin: 0 auto; padding: 0 3rem 6rem; }
+    .case-section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
+    .case-section:last-child { border-bottom: none; }
+    .section-eyebrow { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .case-section h2 { font-family: var(--sans); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.5rem; line-height: 1.1; }
+    .case-section h3 { font-family: var(--sans); font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin: 2.5rem 0 0.75rem; }
+    .case-section p { font-size: 0.95rem; line-height: 1.8; color: var(--text-dim); margin-bottom: 1rem; max-width: 680px; }
+    .case-section p strong { color: var(--text); }
+    .case-section p:last-child { margin-bottom: 0; }
+
     /* CALLOUT */
-    .callout{background:var(--surface);border-left:3px solid var(--accent);padding:1.5rem 2rem;margin:2rem 0;}
-    .callout p{font-size:1rem;line-height:1.7;color:var(--text);font-style:italic;margin:0;max-width:none;}
-    /* STEPS */
-    .steps{display:flex;flex-direction:column;gap:1.5rem;margin:2rem 0;}
-    .step{display:grid;grid-template-columns:3rem 1fr;gap:1.25rem;align-items:start;}
-    .step-num{font-family:var(--mono);font-size:0.7rem;color:var(--accent);border:1px solid var(--accent);
-      width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .step-content h4{font-size:0.95rem;font-weight:700;margin-bottom:0.35rem;}
-    .step-content p{font-size:0.85rem;line-height:1.65;color:var(--text-dim);margin:0;max-width:none;}
-    /* REVISION TIMELINE */
-    .rev-timeline{display:flex;flex-direction:column;margin:2rem 0;}
-    .rev-item{display:grid;grid-template-columns:5rem 1fr;border-bottom:1px solid var(--border);}
-    .rev-item:last-child{border-bottom:none;}
-    .rev-label{font-family:var(--mono);font-size:0.72rem;color:var(--accent);
-      padding:1.25rem 1rem 1.25rem 0;border-right:1px solid var(--border);letter-spacing:0.08em;}
-    .rev-content{padding:1.25rem 0 1.25rem 1.5rem;}
-    .rev-content h4{font-size:0.9rem;font-weight:700;margin-bottom:0.3rem;}
-    .rev-content p{font-size:0.82rem;line-height:1.6;color:var(--text-dim);margin:0;}
-    /* FEATURE GRID */
-    .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:2rem 0;}
-    .feature-item{background:var(--bg2);padding:1.5rem;}
-    .feature-label{font-family:var(--mono);font-size:0.62rem;color:var(--accent2);
-      letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}
-    .feature-desc{font-size:0.85rem;line-height:1.6;color:var(--text-dim);}
-    /* IMPACT */
-    .impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-      gap:1px;background:var(--border);margin:2rem 0;}
-    .impact-stat{background:var(--bg2);padding:1.75rem 1.5rem;}
-    .impact-num{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--accent);line-height:1;margin-bottom:0.4rem;}
-    .impact-label{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);
-      letter-spacing:0.15em;text-transform:uppercase;line-height:1.5;}
-    /* TECH CHIPS */
-    .tech-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
-    .tech-chip{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.05em;
-      color:var(--text-dimmer);border:1px solid var(--border);padding:0.2rem 0.55rem;}
-    /* PROJECT NAV */
-    .project-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:4rem;}
-    .proj-nav-link{background:var(--bg2);padding:1.75rem 2rem;text-decoration:none;color:inherit;transition:background 0.2s;}
-    .proj-nav-link:hover{background:var(--surface);}
-    .proj-nav-dir{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);
-      letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}
-    .proj-nav-title{font-size:0.95rem;font-weight:700;color:var(--text);}
-    .proj-nav-link.next{text-align:right;}
-    /* FOOTER */
-    footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;
-      justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
-    footer span{font-family:var(--mono);font-size:0.65rem;color:var(--text-dimmer);letter-spacing:0.1em;}
-    footer a{color:var(--accent);text-decoration:none;}
+    .callout { background: var(--surface); border-left: 3px solid var(--accent); padding: 1.5rem 2rem; margin: 2rem 0; }
+    .callout p { font-size: 1rem; line-height: 1.7; color: var(--text); font-style: italic; margin: 0; max-width: none; }
 
     /* ── IMAGE SYSTEM ── */
-    .img-grid{display:grid;gap:1rem;margin:2rem 0;}
-    .img-grid.cols-2{grid-template-columns:1fr 1fr;}
-    .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
-    .img-figure{display:flex;flex-direction:column;gap:0.5rem;}
-    .img-wrap{position:relative;width:100%;aspect-ratio:16/9;
-      background:var(--surface);border:1px solid var(--border);overflow:hidden;}
-    .img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
-    .img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
-      align-items:center;justify-content:center;gap:0.4rem;padding:1rem;}
-    .placeholder-icon{font-size:1.4rem;opacity:0.18;}
-    .placeholder-filename{font-family:var(--mono);font-size:0.6rem;color:var(--accent);
-      letter-spacing:0.1em;text-align:center;word-break:break-all;}
-    .placeholder-folder{font-family:var(--mono);font-size:0.54rem;color:var(--text-dimmer);
-      letter-spacing:0.08em;text-align:center;}
-    .img-caption{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);
-      letter-spacing:0.08em;line-height:1.5;}
-    .img-wrap img.loaded + .img-placeholder{display:none;}
+    .img-figure { display: flex; flex-direction: column; gap: 0.6rem; margin: 2rem 0; }
+    .img-figure.inline { margin: 0; }
 
-    @media(max-width:768px){
-      nav{padding:1rem 1.5rem;}
-      .project-hero,.project-content{padding-left:1.5rem;padding-right:1.5rem;}
-      .img-grid.cols-2,.img-grid.cols-3,.feature-grid{grid-template-columns:1fr;}
-      .project-nav{grid-template-columns:1fr;}
-      .proj-nav-link.next{text-align:left;}
+    .img-wrap {
+      position: relative;
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
     }
-</style>
+    /* Default 16:9 */
+    .img-wrap { aspect-ratio: 16 / 9; }
+    /* Wide schematic slot — shorter ratio so it spans wide without too much height */
+    .img-wrap.ratio-schematic { aspect-ratio: 16 / 7; }
+    /* Square-ish for PCB trace close-ups */
+    .img-wrap.ratio-square { aspect-ratio: 4 / 3; }
+
+    .img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-wrap img.loaded + .img-placeholder { display: none; }
+
+    .img-placeholder {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.5rem; padding: 1.5rem;
+    }
+    .placeholder-icon { font-size: 1.6rem; opacity: 0.15; }
+    .placeholder-filename { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.12em; text-align: center; }
+    .placeholder-folder { font-family: var(--mono); font-size: 0.55rem; color: var(--text-dimmer); letter-spacing: 0.08em; text-align: center; }
+
+    .img-caption { font-family: var(--mono); font-size: 0.62rem; color: var(--text-dimmer); letter-spacing: 0.08em; line-height: 1.5; }
+
+    /* 2-col image grid */
+    .img-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+
+    /* 3-col for small detail shots */
+    .img-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+
+    /* HARDWARE SPEC TABLE */
+    .hw-table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
+    .hw-table th { font-family: var(--mono); font-size: 0.6rem; color: var(--text-dimmer); letter-spacing: 0.2em; text-transform: uppercase; text-align: left; padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+    .hw-table td { font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); padding: 0.75rem 1rem; border-bottom: 1px solid var(--bg2); vertical-align: top; }
+    .hw-table td:first-child { color: var(--text); }
+    .hw-table tr:last-child td { border-bottom: none; }
+    .hw-table tr:hover td { background: var(--surface); }
+
+    /* FIRMWARE BLOCKS */
+    .fw-layers { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin: 2rem 0; }
+    .fw-layer { background: var(--bg2); display: grid; grid-template-columns: 10rem 1fr; }
+    .fw-layer-name { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); padding: 1.25rem 1.25rem; border-right: 1px solid var(--border); letter-spacing: 0.06em; display: flex; align-items: center; }
+    .fw-layer-desc { font-size: 0.85rem; line-height: 1.6; color: var(--text-dim); padding: 1.25rem 1.5rem; }
+    .fw-layer-desc strong { color: var(--text); }
+
+    /* IMPACT */
+    .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--border); margin: 2rem 0; }
+    .impact-stat { background: var(--bg2); padding: 1.75rem 1.5rem; }
+    .impact-num { font-family: var(--mono); font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 0.4rem; }
+    .impact-label { font-family: var(--mono); font-size: 0.62rem; color: var(--text-dimmer); letter-spacing: 0.15em; text-transform: uppercase; line-height: 1.5; }
+
+    /* TECH CHIPS */
+    .tech-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tech-chip { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.05em; color: var(--text-dimmer); border: 1px solid var(--border); padding: 0.2rem 0.55rem; }
+
+    /* PROJECT NAV */
+    .project-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 4rem; }
+    .proj-nav-link { background: var(--bg2); padding: 1.75rem 2rem; text-decoration: none; color: inherit; transition: background 0.2s; }
+    .proj-nav-link:hover { background: var(--surface); }
+    .proj-nav-dir { font-family: var(--mono); font-size: 0.62rem; color: var(--text-dimmer); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .proj-nav-title { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .proj-nav-link.next { text-align: right; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    footer span { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dimmer); letter-spacing: 0.1em; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── PDF VIEWER ── */
+    .pdf-viewer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin: 2rem 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pdf-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pdf-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .pdf-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .pdf-filename {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+    }
+
+    .pdf-badge {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--accent);
+      background: rgba(232,255,71,0.08);
+      border: 1px solid rgba(232,255,71,0.2);
+      padding: 0.1rem 0.4rem;
+      letter-spacing: 0.1em;
+    }
+
+    .pdf-btn {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.65rem;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      line-height: 1;
+    }
+
+    .pdf-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .pdf-btn:disabled { opacity: 0.25; cursor: default; }
+    .pdf-btn:disabled:hover { color: var(--text-dim); border-color: var(--border); }
+
+    .pdf-page-indicator {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      padding: 0 0.35rem;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .pdf-canvas-wrap {
+      position: relative;
+      width: 100%;
+      min-height: 420px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: auto;
+      background: #0d0d12;
+    }
+
+    #pdfCanvas {
+      display: block;
+      max-width: 100%;
+      /* actual dimensions set by JS */
+    }
+
+    .pdf-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 2rem;
+    }
+
+    .pdf-placeholder-icon { font-size: 2rem; opacity: 0.15; }
+    .pdf-placeholder-file { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.12em; }
+    .pdf-placeholder-path { font-family: var(--mono); font-size: 0.58rem; color: var(--text-dimmer); letter-spacing: 0.08em; }
+    .pdf-placeholder-hint { font-family: var(--mono); font-size: 0.58rem; color: var(--text-dimmer); letter-spacing: 0.06em; text-align: center; margin-top: 0.25rem; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .project-hero, .project-content { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .img-grid-2, .img-grid-3 { grid-template-columns: 1fr; }
+      .fw-layer { grid-template-columns: 1fr; }
+      .fw-layer-name { border-right: none; border-bottom: 1px solid var(--border); }
+      .project-nav { grid-template-columns: 1fr; }
+      .proj-nav-link.next { text-align: left; }
+    }
+  </style>
 </head>
 <body>
+
 <nav>
   <a href="../index.html" class="nav-logo">MG_PORTFOLIO</a>
   <a href="../index.html#projects" class="nav-back">← All Projects</a>
 </nav>
 
+<!-- ── HERO ── -->
 <div class="project-hero">
-  <div class="back-crumb"><a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / ESP32 Data Logger</div>
-  <div class="project-category">Embedded / Firmware</div>
+  <div class="back-crumb">
+    <a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / ESP32 Data Logger
+  </div>
+  <div class="project-category">Embedded / Custom PCB</div>
   <h1>ESP32 High-Speed Data Logger</h1>
-  <p class="project-tagline">A custom embedded system that continuously logs over 10,000 sensor samples per second for days — built to catch intermittent failures that no off-the-shelf tool could capture.</p>
+  <p class="project-tagline">A custom PCB built to log over 10,000 sensor samples per second continuously for days — designed from schematic to enclosure to catch the intermittent hardware failures that no bench tool can reach.</p>
   <div class="meta-row">
     <div class="meta-item"><div class="meta-label">Throughput</div><div class="meta-value">10,000+ samples/sec</div></div>
     <div class="meta-item"><div class="meta-label">Runtime</div><div class="meta-value">Days continuous</div></div>
-    <div class="meta-item"><div class="meta-label">Platform</div><div class="meta-value">ESP32</div></div>
-    <div class="meta-item"><div class="meta-label">Context</div><div class="meta-value">Brewbird / Personal</div></div>
+    <div class="meta-item"><div class="meta-label">Hardware</div><div class="meta-value">Custom PCB</div></div>
+    <div class="meta-item"><div class="meta-label">MCU</div><div class="meta-value">ESP32</div></div>
+    <div class="meta-item"><div class="meta-label">Context</div><div class="meta-value">Brewbird</div></div>
   </div>
 </div>
+
+<!-- ── CONTENT ── -->
 <div class="project-content">
+
+  <!-- 01 PROBLEM -->
   <div class="case-section">
     <p class="section-eyebrow">01 — Problem</p>
-    <h2>Failures that disappear when you look</h2>
-    <p>Debugging real hardware often means chasing failures that happen once every few hundred cycles — under load, at temperature, after hours of operation. A bench oscilloscope can't stay connected for days, and commercial loggers either lack the sample rate or cost a fortune.</p>
-    <p>I needed a tool that could <strong>live inside a machine, log continuously at high rate, and not get in the way.</strong></p>
-    <div class="callout"><p>"The failure only happens after 400 cycles. We need something that can watch the whole thing."</p></div>
-        <div class="img-grid cols-2">
-      <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/data-logger/01-mechanism-monitored.jpg" alt="The mechanism being monitored">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">01-mechanism-monitored.jpg</span>
-            <span class="placeholder-folder">images/data-logger/</span>
-          </div>
-        </div>
-        <figcaption class="img-caption">The mechanism being monitored</figcaption>
-      </figure>
-      <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/data-logger/02-failure-data.jpg" alt="Data capture showing the failure event">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">02-failure-data.jpg</span>
-            <span class="placeholder-folder">images/data-logger/</span>
-          </div>
-        </div>
-        <figcaption class="img-caption">Data capture showing the failure event</figcaption>
-      </figure>
+    <h2>The failure only happens when you stop watching</h2>
+    <p>Mechanism failures at Brewbird were intermittent — occurring once every few hundred cycles, under load, after extended operation. A bench oscilloscope can't stay connected for days. Commercial data loggers lacked the right sensor interfaces, sample rate, or were too bulky to fit inside a running machine.</p>
+    <p>I needed something <strong>custom: small enough to install permanently, fast enough to catch transient events, and reliable enough to run for days without intervention.</strong> That meant designing a PCB rather than duct-taping dev boards together.</p>
+    <div class="callout">
+      <p>"The failure only happens after 400 cycles. We need something that can watch the whole thing — not just the first five minutes."</p>
     </div>
   </div>
+
+  <!-- 02 HARDWARE -->
   <div class="case-section">
-    <p class="section-eyebrow">02 — Process</p>
-    <h2>Architecting for speed and endurance</h2>
-    <p>The key insight: writing to flash synchronously at 10k samples/sec is too slow. The solution is to <strong>decouple acquisition from storage</strong> using a ring buffer in RAM.</p>
-    <div class="steps">
-      <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Dual-core task architecture</h4><p>Core 0 handles sensor polling at fixed intervals via a high-priority FreeRTOS task. Core 1 handles writing buffered data to storage. The two cores never block each other.</p></div></div>
-      <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Ring buffer memory management</h4><p>Implemented a lockless ring buffer in SRAM. When the write task falls behind, the buffer absorbs the burst without dropping samples.</p></div></div>
-      <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Timestamping & data integrity</h4><p>Each sample carries a 64-bit microsecond timestamp from the ESP32's hardware timer. CRC checksums on each flash page detect any write corruption.</p></div></div>
-      <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Python post-processing</h4><p>Wrote a Python script to pull logs over serial or WiFi, decode binary frames, and plot time series with annotated events — easy to hand to teammates who aren't firmware engineers.</p></div></div>
+    <p class="section-eyebrow">02 — Hardware</p>
+    <h2>Designed for the environment, not the bench</h2>
+    <p>The PCB was designed around three constraints: fit the physical envelope of the machine, survive the electrical environment (motor noise, inductive spikes), and run continuously from a small battery or USB supply without thermal issues.</p>
+
+    <!-- LARGE SCHEMATIC — PDF viewer -->
+    <h3>Schematic</h3>
+    <div class="pdf-viewer" id="schematicViewer">
+
+      <!-- toolbar -->
+      <div class="pdf-toolbar">
+        <div class="pdf-toolbar-left">
+          <span class="pdf-filename">schematic.pdf</span>
+          <span class="pdf-badge" id="pdfPageCount"></span>
+        </div>
+        <div class="pdf-toolbar-right">
+          <button class="pdf-btn" id="prevPage" title="Previous page">&#8592;</button>
+          <span class="pdf-page-indicator"><span id="currentPage">—</span> / <span id="totalPages">—</span></span>
+          <button class="pdf-btn" id="nextPage" title="Next page">&#8594;</button>
+          <button class="pdf-btn" id="zoomOut" title="Zoom out">&#8722;</button>
+          <button class="pdf-btn" id="zoomIn" title="Zoom in">&#43;</button>
+          <button class="pdf-btn" id="zoomFit" title="Fit to width">&#x2194;</button>
+        </div>
+      </div>
+
+      <!-- canvas area -->
+      <div class="pdf-canvas-wrap" id="pdfCanvasWrap">
+        <canvas id="pdfCanvas"></canvas>
+
+        <!-- shown before PDF loads -->
+        <div class="pdf-placeholder" id="pdfPlaceholder">
+          <span class="pdf-placeholder-icon">📄</span>
+          <span class="pdf-placeholder-file">schematic.pdf</span>
+          <span class="pdf-placeholder-path">images/data-logger/schematic.pdf</span>
+          <span class="pdf-placeholder-hint">Drop your schematic PDF here — multi-page supported</span>
+        </div>
+      </div>
+
+      <figcaption class="img-caption" style="padding: 0.6rem 1rem 0.75rem;">
+        Full schematic — ESP32, power regulation, sensor interfaces, MicroSD storage
+      </figcaption>
     </div>
-        <div class="img-grid cols-3">
-      <figure class="img-figure">
+
+    <!-- COMPONENT TABLE -->
+    <h3>Bill of Key Components</h3>
+    <table class="hw-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Part / Value</th>
+          <th>Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>MCU</td><td>ESP32 (dual-core, 240MHz)</td><td>Sensor polling on Core 0, storage writes on Core 1</td></tr>
+        <tr><td>Storage</td><td>MicroSD via SPI</td><td>Long-term data logging — days of continuous samples</td></tr>
+        <tr><td>Power</td><td>3.3V LDO regulator</td><td>Clean rail for MCU and analog sensors, isolated from motor supply</td></tr>
+        <tr><td>Sensor interface</td><td>I2C + SPI headers</td><td>Configurable per deployment — swap sensor types without reflowing</td></tr>
+        <tr><td>Filtering</td><td>RC low-pass on analog inputs</td><td>Reject high-frequency noise from motor PWM switching</td></tr>
+        <tr><td>Indicator</td><td>Status LEDs</td><td>Log active / error / buffer-full states visible without a computer</td></tr>
+        <tr><td>Connector</td><td>JST-PH power input</td><td>Compatible with standard LiPo packs for untethered deployment</td></tr>
+      </tbody>
+    </table>
+
+    <!-- PCB LAYOUT + ASSEMBLED -->
+    <h3>PCB Layout & Assembly</h3>
+    <div class="img-grid-2">
+      <figure class="img-figure inline">
         <div class="img-wrap">
-          <img src="../images/data-logger/03-hardware-wiring.jpg" alt="Hardware setup / wiring">
+          <img src="../images/data-logger/02-pcb-layout.jpg" alt="PCB layout — copper traces">
           <div class="img-placeholder">
             <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">03-hardware-wiring.jpg</span>
+            <span class="placeholder-filename">02-pcb-layout.jpg</span>
             <span class="placeholder-folder">images/data-logger/</span>
           </div>
         </div>
-        <figcaption class="img-caption">Hardware setup / wiring</figcaption>
+        <figcaption class="img-caption">PCB layout — copper pour, trace routing, component placement</figcaption>
       </figure>
-      <figure class="img-figure">
+      <figure class="img-figure inline">
         <div class="img-wrap">
-          <img src="../images/data-logger/04-firmware-diagram.jpg" alt="Firmware architecture (ring buffer diagram)">
+          <img src="../images/data-logger/03-hardware-assembled.jpg" alt="Assembled PCB">
           <div class="img-placeholder">
             <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">04-firmware-diagram.jpg</span>
+            <span class="placeholder-filename">03-hardware-assembled.jpg</span>
             <span class="placeholder-folder">images/data-logger/</span>
           </div>
         </div>
-        <figcaption class="img-caption">Firmware architecture (ring buffer diagram)</figcaption>
-      </figure>
-      <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/data-logger/05-data-plot.jpg" alt="Example output data plot">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">05-data-plot.jpg</span>
-            <span class="placeholder-folder">images/data-logger/</span>
-          </div>
-        </div>
-        <figcaption class="img-caption">Example output data plot</figcaption>
+        <figcaption class="img-caption">Assembled PCB — populated and ready for deployment</figcaption>
       </figure>
     </div>
+
+    <!-- ENCLOSURE / INSTALLED -->
+    <h3>Enclosure & Installation</h3>
+    <figure class="img-figure">
+      <div class="img-wrap">
+        <img src="../images/data-logger/04-enclosure.jpg" alt="Enclosure / installed in machine">
+        <div class="img-placeholder">
+          <span class="placeholder-icon">📷</span>
+          <span class="placeholder-filename">04-enclosure.jpg</span>
+          <span class="placeholder-folder">images/data-logger/ — logger installed inside the machine, or enclosure detail</span>
+        </div>
+      </div>
+      <figcaption class="img-caption">Logger installed inside the Brewbird machine — no external connections needed during a run</figcaption>
+    </figure>
   </div>
+
+  <!-- 03 FIRMWARE -->
   <div class="case-section">
-    <p class="section-eyebrow">03 — Solution</p>
-    <h2>A pocket-sized test instrument</h2>
-    <p>The final logger fits on a single ESP32 dev board with a MicroSD breakout, runs from a USB power bank for multi-day deployments, and drops into a running machine in minutes. Log rate, sensor channels, and trigger conditions are configured via a text file on the SD card.</p>
-        <div class="img-grid cols-2">
-      <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/data-logger/06-installed-in-machine.jpg" alt="Logger deployed inside the running machine">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">06-installed-in-machine.jpg</span>
-            <span class="placeholder-folder">images/data-logger/</span>
-          </div>
-        </div>
-        <figcaption class="img-caption">Logger deployed inside the running machine</figcaption>
-      </figure>
-      <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/data-logger/07-dashboard.jpg" alt="Sample output / data dashboard">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">07-dashboard.jpg</span>
-            <span class="placeholder-folder">images/data-logger/</span>
-          </div>
-        </div>
-        <figcaption class="img-caption">Sample output / data dashboard</figcaption>
-      </figure>
+    <p class="section-eyebrow">03 — Firmware Architecture</p>
+    <h2>Decoupling acquisition from storage</h2>
+    <p>Writing directly to an SD card at 10k samples/sec isn't possible — SPI flash writes have variable latency that will cause sample drops. The solution is to decouple the two operations entirely using a <strong>lockless ring buffer in SRAM</strong> as an intermediary.</p>
+
+    <div class="fw-layers">
+      <div class="fw-layer">
+        <div class="fw-layer-name">Sensor ISR</div>
+        <div class="fw-layer-desc"><strong>Core 0 — highest priority.</strong> Hardware timer fires at fixed intervals. ISR reads sensor data and writes a timestamped sample into the head of the ring buffer. Runs at full rate regardless of what Core 1 is doing.</div>
+      </div>
+      <div class="fw-layer">
+        <div class="fw-layer-name">Ring Buffer</div>
+        <div class="fw-layer-desc"><strong>SRAM — lockless design.</strong> Producer (Core 0) and consumer (Core 1) operate on separate head/tail pointers. Buffer depth sized to absorb worst-case SD write latency with margin. Overflow condition triggers a status LED — no silent data loss.</div>
+      </div>
+      <div class="fw-layer">
+        <div class="fw-layer-name">Write Task</div>
+        <div class="fw-layer-desc"><strong>Core 1 — lower priority.</strong> Drains the ring buffer in chunks, packs samples into binary frames with CRC checksums, and writes to MicroSD via SPI. Handles SD card busy-wait without stalling the acquisition core.</div>
+      </div>
+      <div class="fw-layer">
+        <div class="fw-layer-name">Timestamps</div>
+        <div class="fw-layer-desc"><strong>64-bit hardware timer.</strong> Each sample is tagged with a microsecond timestamp from the ESP32's internal hardware timer — not millis(). Guarantees accurate inter-sample timing even when the write task is under load.</div>
+      </div>
+      <div class="fw-layer">
+        <div class="fw-layer-name">Config</div>
+        <div class="fw-layer-desc"><strong>SD card text file.</strong> Log rate, active sensor channels, and trigger conditions read from <code>config.txt</code> on boot. No reflashing needed to change deployment parameters — swap the config and power cycle.</div>
+      </div>
     </div>
-    <div class="tech-row">
-      <span class="tech-chip">ESP32</span><span class="tech-chip">FreeRTOS</span><span class="tech-chip">C / Arduino-C</span><span class="tech-chip">Ring Buffer</span><span class="tech-chip">SPI / I2C</span><span class="tech-chip">MicroSD</span><span class="tech-chip">Python</span>
-    </div>
+
+    <figure class="img-figure">
+      <div class="img-wrap ratio-schematic">
+        <img src="../images/data-logger/05-firmware-diagram.jpg" alt="Firmware architecture diagram">
+        <div class="img-placeholder">
+          <span class="placeholder-icon">📷</span>
+          <span class="placeholder-filename">05-firmware-diagram.jpg</span>
+          <span class="placeholder-folder">images/data-logger/ — block diagram, whiteboard photo is fine</span>
+        </div>
+      </div>
+      <figcaption class="img-caption">Firmware architecture — dual-core task split with ring buffer intermediary</figcaption>
+    </figure>
   </div>
+
+  <!-- 04 IMPACT -->
   <div class="case-section">
     <p class="section-eyebrow">04 — Impact</p>
-    <h2>Root causes found. Debug cycles cut.</h2>
+    <h2>Root causes found. Debug cycles cut from weeks to days.</h2>
+
     <div class="impact-grid">
-      <div class="impact-stat"><div class="impact-num">10k+</div><div class="impact-label">Samples per second</div></div>
+      <div class="impact-stat"><div class="impact-num">10k+</div><div class="impact-label">Samples / second</div></div>
       <div class="impact-stat"><div class="impact-num">Days</div><div class="impact-label">Continuous runtime</div></div>
+      <div class="impact-stat"><div class="impact-num">0</div><div class="impact-label">Dropped samples at full rate</div></div>
       <div class="impact-stat"><div class="impact-num">$0</div><div class="impact-label">Commercial DAQ needed</div></div>
     </div>
-    <p>The logger directly enabled root-cause identification of several elusive mechanism failures at Brewbird, reducing debug cycles from weeks to days. It's now a standard part of the hardware debug workflow.</p>
+
+    <p>The logger directly identified the root cause of several elusive mechanism failures at Brewbird — events that only appeared after hundreds of cycles and disappeared the moment a bench instrument was connected. It's now a standard tool in the hardware debug workflow.</p>
+    <p>The Python post-processing script decodes binary logs, reconstructs timestamped time series, and plots annotated events — making it easy to share findings with teammates who aren't embedded engineers.</p>
+
+    <figure class="img-figure">
+      <div class="img-wrap">
+        <img src="../images/data-logger/06-data-output.jpg" alt="Sample data output / plot">
+        <div class="img-placeholder">
+          <span class="placeholder-icon">📷</span>
+          <span class="placeholder-filename">06-data-output.jpg</span>
+          <span class="placeholder-folder">images/data-logger/ — screenshot of Python plot showing a captured failure event</span>
+        </div>
+      </div>
+      <figcaption class="img-caption">Sample log output — annotated time series showing the captured failure event</figcaption>
+    </figure>
+
+    <div class="tech-row">
+      <span class="tech-chip">Custom PCB</span>
+      <span class="tech-chip">ESP32</span>
+      <span class="tech-chip">EasyEDA / KiCad</span>
+      <span class="tech-chip">FreeRTOS</span>
+      <span class="tech-chip">C / Arduino-C</span>
+      <span class="tech-chip">Lockless Ring Buffer</span>
+      <span class="tech-chip">SPI / I2C</span>
+      <span class="tech-chip">MicroSD</span>
+      <span class="tech-chip">Python</span>
+    </div>
   </div>
+
+  <!-- PROJECT NAV -->
   <div class="project-nav">
-    <a href="linear-encoder.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">Linear Capacitive Encoder</div></a>
-    <a href="delta-printer.html" class="proj-nav-link next"><div class="proj-nav-dir">Next →</div><div class="proj-nav-title">Custom Delta 3D Printer</div></a>
+    <a href="linear-encoder.html" class="proj-nav-link prev">
+      <div class="proj-nav-dir">← Previous</div>
+      <div class="proj-nav-title">Linear Capacitive Encoder</div>
+    </a>
+    <a href="delta-printer.html" class="proj-nav-link next">
+      <div class="proj-nav-dir">Next →</div>
+      <div class="proj-nav-title">Custom Delta 3D Printer</div>
+    </a>
   </div>
+
 </div>
+
 <footer>
   <span>© 2026 Maxwell Goldenson</span>
   <span><a href="../index.html">← Back to Portfolio</a></span>
 </footer>
 
 <script>
-  // Mark images that load successfully so placeholder hides via CSS
+  // ── IMAGE LOAD DETECTION ─────────────────────────────────────────────────
   document.querySelectorAll('.img-wrap img').forEach(img => {
-    if (img.complete && img.naturalWidth > 0) {
-      img.classList.add('loaded');
-    } else {
-      img.addEventListener('load', () => img.classList.add('loaded'));
-      // On error, leave placeholder visible (it's visible by default)
-    }
+    if (img.complete && img.naturalWidth > 0) img.classList.add('loaded');
+    else img.addEventListener('load', () => img.classList.add('loaded'));
   });
+
+  // ── PDF VIEWER ────────────────────────────────────────────────────────────
+  // Use a pinned, stable version. Library + worker MUST match exactly.
+  const PDFJS_VERSION = '2.16.105';
+  const PDFJS_CDN     = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}`;
+  const PDF_URL       = '../images/data-logger/schematic.pdf';
+
+  const canvas         = document.getElementById('pdfCanvas');
+  const ctx            = canvas.getContext('2d');
+  const placeholder    = document.getElementById('pdfPlaceholder');
+  const currentPageEl  = document.getElementById('currentPage');
+  const totalPagesEl   = document.getElementById('totalPages');
+  const prevBtn        = document.getElementById('prevPage');
+  const nextBtn        = document.getElementById('nextPage');
+  const zoomInBtn      = document.getElementById('zoomIn');
+  const zoomOutBtn     = document.getElementById('zoomOut');
+  const zoomFitBtn     = document.getElementById('zoomFit');
+  const pageCountBadge = document.getElementById('pdfPageCount');
+  const canvasWrap     = document.getElementById('pdfCanvasWrap');
+
+  let pdfDoc      = null;
+  let pageNum     = 1;
+  let scale       = 1.5;
+  let rendering   = false;
+  let renderQueue = null; // page number waiting to render
+
+  function updateButtons() {
+    prevBtn.disabled = pageNum <= 1;
+    nextBtn.disabled = pageNum >= pdfDoc.numPages;
+    currentPageEl.textContent = pageNum;
+  }
+
+  function renderPage(num) {
+    // If already rendering, queue this page and bail
+    if (rendering) { renderQueue = num; return; }
+    rendering = true;
+
+    pdfDoc.getPage(num).then(page => {
+      const viewport = page.getViewport({ scale });
+      canvas.height  = viewport.height;
+      canvas.width   = viewport.width;
+
+      return page.render({ canvasContext: ctx, viewport }).promise;
+    }).then(() => {
+      rendering = false;
+      updateButtons();
+      // Drain queue
+      if (renderQueue !== null) {
+        const next = renderQueue;
+        renderQueue = null;
+        renderPage(next);
+      }
+    }).catch(err => {
+      rendering = false;
+      console.warn('PDF render error:', err);
+    });
+  }
+
+  function fitToWidth() {
+    if (!pdfDoc) return;
+    pdfDoc.getPage(pageNum).then(page => {
+      const naturalVP = page.getViewport({ scale: 1 });
+      const available = canvasWrap.clientWidth - 2; // 1px border each side
+      scale = available / naturalVP.width;
+      renderPage(pageNum);
+    });
+  }
+
+  function loadPDFJS() {
+    return new Promise((resolve, reject) => {
+      if (window.pdfjsLib) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src = `${PDFJS_CDN}/build/pdf.min.js`;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  loadPDFJS().then(() => {
+    // Worker must be the same version as the library
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      `${PDFJS_CDN}/build/pdf.worker.min.js`;
+
+    return pdfjsLib.getDocument(PDF_URL).promise;
+  }).then(doc => {
+    pdfDoc = doc;
+    placeholder.style.display = 'none';
+    totalPagesEl.textContent   = doc.numPages;
+    pageCountBadge.textContent = `${doc.numPages} ${doc.numPages === 1 ? 'page' : 'pages'}`;
+    fitToWidth();
+  }).catch(err => {
+    // PDF not present yet — placeholder stays. Silently swallow.
+    console.info('PDF not loaded (file may not exist yet):', err?.message ?? err);
+  });
+
+  // Controls
+  prevBtn.addEventListener('click', () => {
+    if (!pdfDoc || pageNum <= 1) return;
+    pageNum--;
+    renderPage(pageNum);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
+    pageNum++;
+    renderPage(pageNum);
+  });
+
+  zoomInBtn.addEventListener('click',  () => { scale = Math.min(scale + 0.25, 5); renderPage(pageNum); });
+  zoomOutBtn.addEventListener('click', () => { scale = Math.max(scale - 0.25, 0.4); renderPage(pageNum); });
+  zoomFitBtn.addEventListener('click', fitToWidth);
+
+  // Arrow key navigation
+  document.addEventListener('keydown', e => {
+    if (!pdfDoc) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextBtn.click();
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevBtn.click();
+  });
+
+  // Refit on window resize
+  window.addEventListener('resize', () => { if (pdfDoc) fitToWidth(); });
 </script>
 
 </body>

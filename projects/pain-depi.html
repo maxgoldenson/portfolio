@@ -1,42 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pain d'Épi — FRC 2023 — Max Goldenson</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2023 Robot — Pain d'Épi — Max Goldenson</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0a0a0f;--bg2:#111118;--surface:#16161f;--surface2:#1e1e2a;--border:#2a2a3a;--accent:#e8ff47;--accent2:#47c8ff;--text:#e8e8f0;--text-dim:#888898;--text-dimmer:#444455;--mono:'Space Mono',monospace;--sans:'Syne',sans-serif;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
-    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.88);backdrop-filter:blur(12px);}
-    .nav-logo{font-family:var(--mono);font-size:0.85rem;color:var(--accent);letter-spacing:0.08em;text-decoration:none;}.nav-back{font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}.nav-back:hover{color:var(--accent);}
-    .project-hero{padding:9rem 3rem 5rem;max-width:900px;margin:0 auto;}.back-crumb{font-family:var(--mono);font-size:0.68rem;color:var(--text-dimmer);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2rem;}.back-crumb a{color:var(--text-dimmer);text-decoration:none;transition:color 0.2s;}.back-crumb a:hover{color:var(--accent);}
-    .project-category{font-family:var(--mono);font-size:0.7rem;color:var(--accent2);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;}
-    .project-hero h1{font-family:var(--sans);font-size:clamp(2.2rem,5vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;}.project-tagline{font-size:1.1rem;line-height:1.7;color:var(--text-dim);max-width:620px;margin-bottom:2.5rem;}
-    .meta-row{display:flex;flex-wrap:wrap;gap:2rem;padding:1.5rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}.meta-label{font-family:var(--mono);font-size:0.6rem;color:var(--text-dimmer);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.3rem;}.meta-value{font-family:var(--mono);font-size:0.8rem;color:var(--text);}
-    .project-content{max-width:900px;margin:0 auto;padding:0 3rem 6rem;}.case-section{padding:4rem 0;border-bottom:1px solid var(--border);}.case-section:last-child{border-bottom:none;}
-    .section-eyebrow{font-family:var(--mono);font-size:0.65rem;color:var(--accent);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;}.section-eyebrow::after{content:'';flex:1;height:1px;background:var(--border);}
-    .case-section h2{font-family:var(--sans);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;line-height:1.1;}.case-section p{font-size:0.95rem;line-height:1.8;color:var(--text-dim);margin-bottom:1rem;max-width:680px;}.case-section p strong{color:var(--text);}.case-section p:last-child{margin-bottom:0;}
-    .img-grid{display:grid;gap:1rem;margin:2rem 0;}.img-grid.cols-2{grid-template-columns:1fr 1fr;}.img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
-    .img-slot{background:var(--surface);border:1px dashed var(--border);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;position:relative;overflow:hidden;}.img-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}.img-slot-label{font-family:var(--mono);font-size:0.6rem;color:var(--text-dimmer);letter-spacing:0.15em;text-transform:uppercase;text-align:center;padding:0 1rem;}.img-slot-icon{font-size:1.5rem;opacity:0.2;}
-    .callout{background:var(--surface);border-left:3px solid var(--accent);padding:1.5rem 2rem;margin:2rem 0;}.callout p{font-size:1rem;line-height:1.7;color:var(--text);font-style:italic;margin:0;max-width:none;}
-    .steps{display:flex;flex-direction:column;gap:1.5rem;margin:2rem 0;}.step{display:grid;grid-template-columns:3rem 1fr;gap:1.25rem;align-items:start;}.step-num{font-family:var(--mono);font-size:0.7rem;color:var(--accent);border:1px solid var(--accent);width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:0.05em;}.step-content h4{font-size:0.95rem;font-weight:700;margin-bottom:0.35rem;}.step-content p{font-size:0.85rem;line-height:1.65;color:var(--text-dim);margin:0;max-width:none;}
-    .impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);margin:2rem 0;}.impact-stat{background:var(--bg2);padding:1.75rem 1.5rem;}.impact-num{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--accent);line-height:1;margin-bottom:0.4rem;}.impact-label{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);letter-spacing:0.15em;text-transform:uppercase;line-height:1.5;}
-    .tech-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}.tech-chip{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.05em;color:var(--text-dimmer);border:1px solid var(--border);padding:0.2rem 0.55rem;}
-    .project-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:4rem;}.proj-nav-link{background:var(--bg2);padding:1.75rem 2rem;text-decoration:none;color:inherit;transition:background 0.2s;}.proj-nav-link:hover{background:var(--surface);}.proj-nav-dir{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}.proj-nav-title{font-size:0.95rem;font-weight:700;color:var(--text);}.proj-nav-link.next{text-align:right;}
-    footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}footer span{font-family:var(--mono);font-size:0.65rem;color:var(--text-dimmer);letter-spacing:0.1em;}footer a{color:var(--accent);text-decoration:none;}
-    @media(max-width:768px){nav{padding:1rem 1.5rem;}.project-hero,.project-content{padding-left:1.5rem;padding-right:1.5rem;}.img-grid.cols-2,.img-grid.cols-3{grid-template-columns:1fr;}.project-nav{grid-template-columns:1fr;}.proj-nav-link.next{text-align:left;}}
-  </style>
+    :root {
+      --bg:#0a0a0f;--bg2:#111118;--surface:#16161f;--surface2:#1e1e2a;
+      --border:#2a2a3a;--accent:#e8ff47;--accent2:#47c8ff;
+      --text:#e8e8f0;--text-dim:#888898;--text-dimmer:#444455;
+      --mono:'Space Mono',monospace;--sans:'Syne',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.03;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");}
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;
+      justify-content:space-between;padding:1.2rem 3rem;border-bottom:1px solid var(--border);
+      background:rgba(10,10,15,0.88);backdrop-filter:blur(12px);}
+    .nav-logo{font-family:var(--mono);font-size:0.85rem;color:var(--accent);letter-spacing:0.08em;text-decoration:none;}
+    .nav-back{font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);text-decoration:none;
+      letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+    .nav-back:hover{color:var(--accent);}
+    /* HERO */
+    .project-hero{padding:9rem 3rem 5rem;max-width:900px;margin:0 auto;}
+    .back-crumb{font-family:var(--mono);font-size:0.68rem;color:var(--text-dimmer);letter-spacing:0.15em;
+      text-transform:uppercase;margin-bottom:2rem;}
+    .back-crumb a{color:var(--text-dimmer);text-decoration:none;transition:color 0.2s;}
+    .back-crumb a:hover{color:var(--accent);}
+    .project-category{font-family:var(--mono);font-size:0.7rem;color:var(--accent2);
+      letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;}
+    .project-hero h1{font-family:var(--sans);font-size:clamp(2.2rem,5vw,4rem);font-weight:800;
+      line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;}
+    .project-tagline{font-size:1.1rem;line-height:1.7;color:var(--text-dim);max-width:620px;margin-bottom:2.5rem;}
+    .meta-row{display:flex;flex-wrap:wrap;gap:2rem;padding:1.5rem 0;
+      border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+    .meta-label{font-family:var(--mono);font-size:0.6rem;color:var(--text-dimmer);
+      letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.3rem;}
+    .meta-value{font-family:var(--mono);font-size:0.8rem;color:var(--text);}
+    /* CONTENT */
+    .project-content{max-width:900px;margin:0 auto;padding:0 3rem 6rem;}
+    .case-section{padding:4rem 0;border-bottom:1px solid var(--border);}
+    .case-section:last-child{border-bottom:none;}
+    .section-eyebrow{font-family:var(--mono);font-size:0.65rem;color:var(--accent);
+      letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.75rem;
+      display:flex;align-items:center;gap:0.75rem;}
+    .section-eyebrow::after{content:'';flex:1;height:1px;background:var(--border);}
+    .case-section h2{font-family:var(--sans);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;
+      letter-spacing:-0.02em;margin-bottom:1.5rem;line-height:1.1;}
+    .case-section p{font-size:0.95rem;line-height:1.8;color:var(--text-dim);margin-bottom:1rem;max-width:680px;}
+    .case-section p strong{color:var(--text);}
+    .case-section p:last-child{margin-bottom:0;}
+    /* CALLOUT */
+    .callout{background:var(--surface);border-left:3px solid var(--accent);padding:1.5rem 2rem;margin:2rem 0;}
+    .callout p{font-size:1rem;line-height:1.7;color:var(--text);font-style:italic;margin:0;max-width:none;}
+    /* STEPS */
+    .steps{display:flex;flex-direction:column;gap:1.5rem;margin:2rem 0;}
+    .step{display:grid;grid-template-columns:3rem 1fr;gap:1.25rem;align-items:start;}
+    .step-num{font-family:var(--mono);font-size:0.7rem;color:var(--accent);border:1px solid var(--accent);
+      width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .step-content h4{font-size:0.95rem;font-weight:700;margin-bottom:0.35rem;}
+    .step-content p{font-size:0.85rem;line-height:1.65;color:var(--text-dim);margin:0;max-width:none;}
+    /* REVISION TIMELINE */
+    .rev-timeline{display:flex;flex-direction:column;margin:2rem 0;}
+    .rev-item{display:grid;grid-template-columns:5rem 1fr;border-bottom:1px solid var(--border);}
+    .rev-item:last-child{border-bottom:none;}
+    .rev-label{font-family:var(--mono);font-size:0.72rem;color:var(--accent);
+      padding:1.25rem 1rem 1.25rem 0;border-right:1px solid var(--border);letter-spacing:0.08em;}
+    .rev-content{padding:1.25rem 0 1.25rem 1.5rem;}
+    .rev-content h4{font-size:0.9rem;font-weight:700;margin-bottom:0.3rem;}
+    .rev-content p{font-size:0.82rem;line-height:1.6;color:var(--text-dim);margin:0;}
+    /* FEATURE GRID */
+    .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:2rem 0;}
+    .feature-item{background:var(--bg2);padding:1.5rem;}
+    .feature-label{font-family:var(--mono);font-size:0.62rem;color:var(--accent2);
+      letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}
+    .feature-desc{font-size:0.85rem;line-height:1.6;color:var(--text-dim);}
+    /* IMPACT */
+    .impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:1px;background:var(--border);margin:2rem 0;}
+    .impact-stat{background:var(--bg2);padding:1.75rem 1.5rem;}
+    .impact-num{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--accent);line-height:1;margin-bottom:0.4rem;}
+    .impact-label{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);
+      letter-spacing:0.15em;text-transform:uppercase;line-height:1.5;}
+    /* TECH CHIPS */
+    .tech-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
+    .tech-chip{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.05em;
+      color:var(--text-dimmer);border:1px solid var(--border);padding:0.2rem 0.55rem;}
+    /* PROJECT NAV */
+    .project-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:4rem;}
+    .proj-nav-link{background:var(--bg2);padding:1.75rem 2rem;text-decoration:none;color:inherit;transition:background 0.2s;}
+    .proj-nav-link:hover{background:var(--surface);}
+    .proj-nav-dir{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);
+      letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}
+    .proj-nav-title{font-size:0.95rem;font-weight:700;color:var(--text);}
+    .proj-nav-link.next{text-align:right;}
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;
+      justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    footer span{font-family:var(--mono);font-size:0.65rem;color:var(--text-dimmer);letter-spacing:0.1em;}
+    footer a{color:var(--accent);text-decoration:none;}
+
+    /* ── IMAGE SYSTEM ── */
+    .img-grid{display:grid;gap:1rem;margin:2rem 0;}
+    .img-grid.cols-2{grid-template-columns:1fr 1fr;}
+    .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+    .img-figure{display:flex;flex-direction:column;gap:0.5rem;}
+    .img-wrap{position:relative;width:100%;aspect-ratio:16/9;
+      background:var(--surface);border:1px solid var(--border);overflow:hidden;}
+    .img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:0.4rem;padding:1rem;}
+    .placeholder-icon{font-size:1.4rem;opacity:0.18;}
+    .placeholder-filename{font-family:var(--mono);font-size:0.6rem;color:var(--accent);
+      letter-spacing:0.1em;text-align:center;word-break:break-all;}
+    .placeholder-folder{font-family:var(--mono);font-size:0.54rem;color:var(--text-dimmer);
+      letter-spacing:0.08em;text-align:center;}
+    .img-caption{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);
+      letter-spacing:0.08em;line-height:1.5;}
+    .img-wrap img.loaded + .img-placeholder{display:none;}
+
+    @media(max-width:768px){
+      nav{padding:1rem 1.5rem;}
+      .project-hero,.project-content{padding-left:1.5rem;padding-right:1.5rem;}
+      .img-grid.cols-2,.img-grid.cols-3,.feature-grid{grid-template-columns:1fr;}
+      .project-nav{grid-template-columns:1fr;}
+      .proj-nav-link.next{text-align:left;}
+    }
+</style>
 </head>
 <body>
-<nav><a href="../index.html" class="nav-logo">MG_PORTFOLIO</a><a href="../index.html#projects" class="nav-back">← All Projects</a></nav>
+<nav>
+  <a href="../index.html" class="nav-logo">MG_PORTFOLIO</a>
+  <a href="../index.html#projects" class="nav-back">← All Projects</a>
+</nav>
 
 <div class="project-hero">
   <div class="back-crumb"><a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / Pain d'Épi</div>
   <div class="project-category">FRC / Mechanical Engineering</div>
   <h1>2023 Robot — Pain d'Épi</h1>
-  <p class="project-tagline">As Technical Captain of FRC Team 5940, I led the design of a low-hysteresis robotic arm using a novel Belt-box drive, validated wire routing to 10,000 torsional cycles, and applied FEA to lightweight critical gears — finishing as Curie Division Finalists.</p>
+  <p class="project-tagline">As Technical Captain of FRC Team 5940, I led the design of a low-hysteresis robotic arm using a novel Belt-box drive, validated wire routing to 10,000 torsional cycles, and used FEA to lightweight critical gears — finishing as Curie Division Finalists.</p>
   <div class="meta-row">
     <div class="meta-item"><div class="meta-label">Result</div><div class="meta-value">Curie Division Finalists</div></div>
     <div class="meta-item"><div class="meta-label">Ranking</div><div class="meta-value">Statistically 4th (statbotics)</div></div>
@@ -44,77 +152,115 @@
     <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">Technical Captain</div></div>
   </div>
 </div>
-
 <div class="project-content">
-
   <div class="case-section">
     <p class="section-eyebrow">01 — Problem</p>
-    <h2>Building a competitive robot in 6 weeks — with no margin for error</h2>
-    <p>FRC (First Robotics Competition) gives teams exactly 6 weeks to design, build, and program a robot capable of competing at the national level. In 2023, the challenge required precise game-piece manipulation at multiple heights — demanding a reliable, high-reach arm mechanism.</p>
-    <p>Two specific engineering problems defined the design: <strong>how to transmit power across a rotating joint without hysteresis or backlash</strong>, and <strong>how to run power wires through that same pivot</strong> without them failing under constant torsional cycling.</p>
+    <h2>Building a competitive robot in 6 weeks</h2>
+    <p>FRC gives teams 6 weeks to build a robot capable of competing nationally. The 2023 challenge required precise game-piece manipulation at multiple heights — demanding a reliable, high-reach arm.</p>
+    <p>Two specific problems defined the design: <strong>how to transmit power across a rotating joint without hysteresis</strong>, and <strong>how to run power wires through that pivot</strong> without them failing under constant torsional cycling.</p>
     <div class="callout"><p>"Chain has chordal action — it creates speed pulses as each link engages the sprocket. For a precision arm, that's unacceptable."</p></div>
-    <div class="img-grid cols-2">
-      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: robot at competition</span></div>
-      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: game field / challenge overview</span></div>
+        <div class="img-grid cols-2">
+      <figure class="img-figure">
+        <div class="img-wrap">
+          <img src="../images/pain-depi/01-robot-competition.jpg" alt="Robot at competition">
+          <div class="img-placeholder">
+            <span class="placeholder-icon">📷</span>
+            <span class="placeholder-filename">01-robot-competition.jpg</span>
+            <span class="placeholder-folder">images/pain-depi/</span>
+          </div>
+        </div>
+        <figcaption class="img-caption">Robot at competition</figcaption>
+      </figure>
+      <figure class="img-figure">
+        <div class="img-wrap">
+          <img src="../images/pain-depi/02-game-field.jpg" alt="Game field / challenge overview">
+          <div class="img-placeholder">
+            <span class="placeholder-icon">📷</span>
+            <span class="placeholder-filename">02-game-field.jpg</span>
+            <span class="placeholder-folder">images/pain-depi/</span>
+          </div>
+        </div>
+        <figcaption class="img-caption">Game field / challenge overview</figcaption>
+      </figure>
     </div>
   </div>
-
   <div class="case-section">
     <p class="section-eyebrow">02 — Process</p>
     <h2>Engineering each subsystem from first principles</h2>
-
     <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <div class="step-content">
-          <h4>Architecture selection (source-of-truth deck)</h4>
-          <p>As Technical Captain, I created an evolving "source of truth" slide deck to reason through robot architectures using layout sketches and block CAD. This showed teammates not just what we decided — but why, preventing backtracking and aligning the team quickly.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <div class="step-content">
-          <h4>Belt-box arm drive (eliminating chain)</h4>
-          <p>Designed a unique "Belt-box" — a compact gearbox using belts instead of chain — to transmit torque across the arm pivot without chordal action. Belts run smoothly at any tooth engagement, giving the arm linear, predictable response.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <div class="step-content">
-          <h4>Wire routing through the pivot + torsional test jig</h4>
-          <p>Routing power wires through the arm pivot is the cleanest cable management solution, but those wires see aggressive torsional cycling every match. I built a custom jig that rotated test wires to 10,000 cycles without failure — proving the design's margin of safety before it went on the robot.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <div class="step-content">
-          <h4>FEA-driven swerve gear lightweighting</h4>
-          <p>Used SOLIDWORKS FEA to simulate stress in the swerve drive gears and identify material that could be safely removed. Described forces, characterized materials, reviewed stress contours, and iterated the design. Then machined the gears on our CNC using a custom aluminum fixture I also designed.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Architecture selection (source-of-truth deck)</h4><p>Created an evolving slide deck to reason through robot architectures using layout sketches and block CAD. Showed teammates not just what we decided — but why, preventing backtracking.</p></div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Belt-box arm drive</h4><p>Designed a compact "Belt-box" gearbox using belts instead of chain to eliminate chordal action. Belts run smoothly at any tooth engagement, giving the arm linear, predictable response.</p></div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Wire routing + torsional test jig</h4><p>Built a custom jig that rotated test wires to 10,000 cycles without failure — proving the design's margin of safety before it went on the robot.</p></div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-content"><h4>FEA-driven gear lightweighting</h4><p>Used SOLIDWORKS FEA to simulate stress in swerve gears, identify removable material, and iterate the design. Then machined them on our CNC using a custom aluminum fixture.</p></div></div>
     </div>
-
-    <div class="img-grid cols-3">
-      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: belt-box CAD / built mechanism</span></div>
-      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: wire torsion test jig</span></div>
-      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: FEA stress plot on swerve gear</span></div>
+        <div class="img-grid cols-3">
+      <figure class="img-figure">
+        <div class="img-wrap">
+          <img src="../images/pain-depi/03-belt-box-cad.jpg" alt="Belt-box CAD / built mechanism">
+          <div class="img-placeholder">
+            <span class="placeholder-icon">📷</span>
+            <span class="placeholder-filename">03-belt-box-cad.jpg</span>
+            <span class="placeholder-folder">images/pain-depi/</span>
+          </div>
+        </div>
+        <figcaption class="img-caption">Belt-box CAD / built mechanism</figcaption>
+      </figure>
+      <figure class="img-figure">
+        <div class="img-wrap">
+          <img src="../images/pain-depi/04-wire-torsion-jig.jpg" alt="Custom wire torsion test jig">
+          <div class="img-placeholder">
+            <span class="placeholder-icon">📷</span>
+            <span class="placeholder-filename">04-wire-torsion-jig.jpg</span>
+            <span class="placeholder-folder">images/pain-depi/</span>
+          </div>
+        </div>
+        <figcaption class="img-caption">Custom wire torsion test jig</figcaption>
+      </figure>
+      <figure class="img-figure">
+        <div class="img-wrap">
+          <img src="../images/pain-depi/05-fea-stress-plot.jpg" alt="SOLIDWORKS FEA stress plot on swerve gear">
+          <div class="img-placeholder">
+            <span class="placeholder-icon">📷</span>
+            <span class="placeholder-filename">05-fea-stress-plot.jpg</span>
+            <span class="placeholder-folder">images/pain-depi/</span>
+          </div>
+        </div>
+        <figcaption class="img-caption">SOLIDWORKS FEA stress plot on swerve gear</figcaption>
+      </figure>
     </div>
   </div>
-
   <div class="case-section">
     <p class="section-eyebrow">03 — Solution</p>
-    <h2>A uniquely architected, tested robot</h2>
-    <p>The final robot featured a slanted extension and arm with the Belt-box drive, pivot-routed and validated wiring, and lightweighted CNC-machined swerve gears. Every major design decision was documented with its rationale — making it reproducible and teachable for the rest of the team.</p>
-    <p>The robot performed reliably throughout competition, with <strong>no mechanical failures on the arm or drivetrain</strong> — a direct result of the validation work done before competition.</p>
-    <div class="img-grid cols-2">
-      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: full robot side view</span></div>
-      <div class="img-slot"><span class="img-slot-icon">📷</span><span class="img-slot-label">Add image: robot in action at championship</span></div>
+    <h2>A uniquely architected, validated robot</h2>
+    <p>The final robot featured a slanted extension and arm with the Belt-box drive, pivot-routed and validated wiring, and lightweighted CNC-machined swerve gears. Every design decision was documented with its rationale.</p>
+        <div class="img-grid cols-2">
+      <figure class="img-figure">
+        <div class="img-wrap">
+          <img src="../images/pain-depi/06-robot-side-view.jpg" alt="Full robot — side view">
+          <div class="img-placeholder">
+            <span class="placeholder-icon">📷</span>
+            <span class="placeholder-filename">06-robot-side-view.jpg</span>
+            <span class="placeholder-folder">images/pain-depi/</span>
+          </div>
+        </div>
+        <figcaption class="img-caption">Full robot — side view</figcaption>
+      </figure>
+      <figure class="img-figure">
+        <div class="img-wrap">
+          <img src="../images/pain-depi/07-robot-action.jpg" alt="Robot in action at championship">
+          <div class="img-placeholder">
+            <span class="placeholder-icon">📷</span>
+            <span class="placeholder-filename">07-robot-action.jpg</span>
+            <span class="placeholder-folder">images/pain-depi/</span>
+          </div>
+        </div>
+        <figcaption class="img-caption">Robot in action at championship</figcaption>
+      </figure>
     </div>
     <div class="tech-row">
       <span class="tech-chip">SolidWorks</span><span class="tech-chip">FEA</span><span class="tech-chip">CNC Machining</span><span class="tech-chip">Belt Drive Design</span><span class="tech-chip">Reliability Testing</span><span class="tech-chip">Technical Leadership</span>
     </div>
   </div>
-
   <div class="case-section">
     <p class="section-eyebrow">04 — Impact</p>
     <h2>Curie Division Finalists. 4th in the world.</h2>
@@ -123,15 +269,29 @@
       <div class="impact-stat"><div class="impact-num">10,000</div><div class="impact-label">Wire cycles validated</div></div>
       <div class="impact-stat"><div class="impact-num">25</div><div class="impact-label">Team members led</div></div>
     </div>
-    <p>Pain d'Épi reached the Curie Division Finals at the FRC World Championship — placing 4th statistically on statbotics.io. More than the result, the project established a design methodology (architecture documentation, subsystem validation, FEA iteration) that I've carried into every engineering role since.</p>
+    <p>The project established a design methodology — architecture documentation, subsystem validation, FEA iteration — that I've carried into every engineering role since.</p>
   </div>
-
   <div class="project-nav">
     <a href="smart-tongs.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">Smart Tongs</div></a>
     <a href="foc-study.html" class="proj-nav-link next"><div class="proj-nav-dir">Next →</div><div class="proj-nav-title">FOC Motor Control Study</div></a>
   </div>
 </div>
+<footer>
+  <span>© 2026 Maxwell Goldenson</span>
+  <span><a href="../index.html">← Back to Portfolio</a></span>
+</footer>
 
-<footer><span>© 2026 Maxwell Goldenson</span><span><a href="../index.html">← Back to Portfolio</a></span></footer>
+<script>
+  // Mark images that load successfully so placeholder hides via CSS
+  document.querySelectorAll('.img-wrap img').forEach(img => {
+    if (img.complete && img.naturalWidth > 0) {
+      img.classList.add('loaded');
+    } else {
+      img.addEventListener('load', () => img.classList.add('loaded'));
+      // On error, leave placeholder visible (it's visible by default)
+    }
+  });
+</script>
+
 </body>
 </html>

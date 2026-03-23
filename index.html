@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Max Goldenson — Robotics & Mechatronics Engineer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -508,11 +509,90 @@
       padding: 0.3rem 0.75rem;
       letter-spacing: 0.04em;
       transition: all 0.15s;
+      cursor: pointer;
+      user-select: none;
     }
 
     .skill-pill:hover {
       border-color: var(--accent);
       color: var(--accent);
+    }
+
+    .skill-pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(232,255,71,0.12);
+    }
+
+    .project-card-more {
+      background: var(--bg2);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+      border: 1.5px dashed var(--border);
+      min-height: 180px;
+    }
+
+    .project-card-more-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dimmer);
+    }
+
+    .project-card-more-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dimmer);
+    }
+
+    .project-card.skill-match {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+
+    .skill-match-tag {
+      display: none;
+      position: absolute;
+      top: -1px; right: 1.25rem;
+      background: var(--accent);
+      color: #0a0a0f;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+    }
+
+    .project-card.skill-match .skill-match-tag { display: block; }
+
+    .filter-status {
+      display: none;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      margin-bottom: 1.5rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-status.visible { display: flex; }
+
+    .filter-status-label { color: var(--text-dimmer); }
+
+    .filter-clear {
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: underline;
+      margin-left: 0.5rem;
     }
 
     /* ── ABOUT ── */
@@ -667,7 +747,6 @@
   <nav>
     <a href="#" class="nav-logo">MG_PORTFOLIO</a>
     <ul class="nav-links">
-      <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#about">About</a></li>
@@ -721,62 +800,20 @@
 
   <div class="full-bleed-divider"></div>
 
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <p class="section-label">01 — Experience</p>
-    <h2>Where I've Worked</h2>
-
-    <div class="experience-grid">
-
-      <div class="exp-card">
-        <div class="exp-header">
-          <div>
-            <div class="exp-title">Associate Mechanical Engineer</div>
-            <div class="exp-company">Brewbird — Smart Coffee Machine</div>
-          </div>
-          <div class="exp-date">May 2024 — Present · San Francisco</div>
-        </div>
-        <div class="exp-role">Mechatronics / Hardware Engineering</div>
-        <ul class="exp-bullets">
-          <li>Resolved mission-critical cross-functional issues, reducing service events and achieving an annual cost reduction of $250k.</li>
-          <li>Redesigned and validated the Pod Opener Mechanism, extending reliable operation by 500+ cups.</li>
-          <li>Developed a novel linear encoder from theory to prototype achieving ±10μm precision, improving grind size reliability and taste.</li>
-          <li>Built automated hardware test fixtures to characterize mechanism wear and identify failure modes.</li>
-          <li>Designed an optimized coffee grinder addressing loudness and inaccuracy, reducing noise by 20 dB.</li>
-        </ul>
-      </div>
-
-      <div class="exp-card">
-        <div class="exp-header">
-          <div>
-            <div class="exp-title">Technical Captain — Fabrication Lead</div>
-            <div class="exp-company">First Robotics — FRC Team 5940</div>
-          </div>
-          <div class="exp-date">Aug 2022 — May 2023 · San Francisco</div>
-        </div>
-        <div class="exp-role">Robotics / Team Leadership</div>
-        <ul class="exp-bullets">
-          <li>Led, taught, and managed a team of ~25 members to develop a highly competitive FRC robot.</li>
-          <li>Used SolidWorks & Onshape to design, fabricate, and realize mechanisms within strict design constraints.</li>
-          <li>Created and integrated custom sensors into multiple mechanisms to enable better control.</li>
-          <li>Achieved Curie Division Finalist and statistically 4th place on statbotics.io.</li>
-          <li>Integrated custom manufactured PCBs to alleviate I2C lockup in sensor networks.</li>
-        </ul>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="full-bleed-divider"></div>
-
   <!-- PROJECTS -->
   <section id="projects">
-    <p class="section-label">02 — Projects</p>
+    <p class="section-label">01 — Projects</p>
     <h2>What I've Built</h2>
+
+    <div id="filterStatus" class="filter-status">
+      <span class="filter-status-label">Showing projects using:</span>
+      <span id="filterTags"></span>
+      <span class="filter-clear" id="filterClear">clear filter</span>
+    </div>
 
     <div class="projects-grid">
 
-      <a href="projects/linear-encoder.html" class="project-card">
+      <a href="projects/linear-encoder.html" class="project-card" data-skills="pcb,c,sensors,python,easyeda">
         <div class="project-tag">Sensors / Embedded</div>
         <div class="project-title">Linear Capacitive Encoder</div>
         <p class="project-desc">
@@ -793,7 +830,7 @@
         <div class="project-arrow">View Case Study →</div>
       </a>
 
-      <a href="projects/data-logger.html" class="project-card">
+      <a href="projects/data-logger.html" class="project-card" data-skills="esp32,c,arduino,pcb,python,schematic,easyeda,fixtures">
         <div class="project-tag">Embedded / Firmware</div>
         <div class="project-title">ESP32 High-Speed Data Logger</div>
         <p class="project-desc">
@@ -809,7 +846,7 @@
         <div class="project-arrow">View Case Study →</div>
       </a>
 
-      <a href="projects/delta-printer.html" class="project-card">
+      <a href="projects/delta-printer.html" class="project-card" data-skills="solidworks,cnc,fea,machining,python,fixtures">
         <div class="project-tag">Mechanical / Hardware</div>
         <div class="project-title">Custom Delta 3D Printer</div>
         <p class="project-desc">
@@ -827,7 +864,7 @@
         <div class="project-arrow">View Case Study →</div>
       </a>
 
-      <a href="projects/smart-tongs.html" class="project-card">
+      <a href="projects/smart-tongs.html" class="project-card" data-skills="esp32,pcb,easyeda,arduino,sensors,schematic">
         <div class="project-tag">Robotics / Electronics</div>
         <div class="project-title">Smart Tongs — Food Waste Reduction</div>
         <p class="project-desc">
@@ -845,7 +882,7 @@
         <div class="project-arrow">View Case Study →</div>
       </a>
 
-      <a href="projects/pain-depi.html" class="project-card">
+      <a href="projects/pain-depi.html" class="project-card" data-skills="solidworks,fea,cnc">
         <div class="project-tag">FRC / Mechanical</div>
         <div class="project-title">2023 Robot — Pain d'Épi</div>
         <p class="project-desc">
@@ -862,7 +899,7 @@
         <div class="project-arrow">View Case Study →</div>
       </a>
 
-      <a href="projects/foc-study.html" class="project-card">
+      <a href="projects/foc-study.html" class="project-card" data-skills="c,motor-drivers,python,sensors">
         <div class="project-tag">Motor Control / Firmware</div>
         <div class="project-title">FOC Motor Control Study</div>
         <p class="project-desc">
@@ -879,7 +916,7 @@
         <div class="project-arrow">View Case Study →</div>
       </a>
 
-      <a href="projects/corexy-printer.html" class="project-card">
+      <a href="projects/corexy-printer.html" class="project-card" data-skills="solidworks,onshape">
         <div class="project-tag">CAD / Mechanical</div>
         <div class="project-title">High-Speed Core XY Printer CAD</div>
         <p class="project-desc">
@@ -895,7 +932,7 @@
         <div class="project-arrow">View Case Study →</div>
       </a>
 
-      <a href="projects/clipper-guard.html" class="project-card">
+      <a href="projects/clipper-guard.html" class="project-card" data-skills="3dprint,solidworks,prototyping">
         <div class="project-tag">Product Design</div>
         <div class="project-title">Shane's Barbershop Clipper Guard</div>
         <p class="project-desc">
@@ -911,6 +948,11 @@
         <div class="project-arrow">View Case Study →</div>
       </a>
 
+      <div id="moreTile" class="project-card-more" style="display:none;">
+        <div class="project-card-more-label">Always building</div>
+        <div class="project-card-more-title">More to come ↗</div>
+      </div>
+
     </div>
   </section>
 
@@ -918,52 +960,52 @@
 
   <!-- SKILLS -->
   <section id="skills">
-    <p class="section-label">03 — Skills</p>
+    <p class="section-label">02 — Skills</p>
     <h2>Tools & Technologies</h2>
 
     <div class="skills-layout">
       <div class="skill-group">
         <div class="skill-group-label">CAD & Simulation</div>
         <div class="skill-list">
-          <span class="skill-pill">SolidWorks</span>
-          <span class="skill-pill">OnShape</span>
-          <span class="skill-pill">FEA</span>
-          <span class="skill-pill">SOLIDWORKS Simulation</span>
-          <span class="skill-pill">Technical Drafting</span>
-          <span class="skill-pill">GD&T</span>
+          <span class="skill-pill" data-skill="solidworks">SolidWorks</span>
+          <span class="skill-pill" data-skill="onshape">OnShape</span>
+          <span class="skill-pill" data-skill="fea">FEA</span>
+          <span class="skill-pill" data-skill="solidworks">SOLIDWORKS Simulation</span>
+          <span class="skill-pill" data-skill="drafting">Technical Drafting</span>
+          <span class="skill-pill" data-skill="gdt">GD&T</span>
         </div>
       </div>
       <div class="skill-group">
         <div class="skill-group-label">Embedded & Firmware</div>
         <div class="skill-list">
-          <span class="skill-pill">C</span>
-          <span class="skill-pill">Arduino-C</span>
-          <span class="skill-pill">ESP32</span>
-          <span class="skill-pill">Verilog</span>
-          <span class="skill-pill">Python</span>
-          <span class="skill-pill">MATLAB</span>
+          <span class="skill-pill" data-skill="c">C</span>
+          <span class="skill-pill" data-skill="arduino">Arduino-C</span>
+          <span class="skill-pill" data-skill="esp32">ESP32</span>
+          <span class="skill-pill" data-skill="verilog">Verilog</span>
+          <span class="skill-pill" data-skill="python">Python</span>
+          <span class="skill-pill" data-skill="matlab">MATLAB</span>
         </div>
       </div>
       <div class="skill-group">
         <div class="skill-group-label">Electronics & PCB</div>
         <div class="skill-list">
-          <span class="skill-pill">Schematic Capture</span>
-          <span class="skill-pill">EasyEDA</span>
-          <span class="skill-pill">SiMetrix (SPICE)</span>
-          <span class="skill-pill">Custom PCB Layout</span>
-          <span class="skill-pill">Sensor Integration</span>
-          <span class="skill-pill">Motor Drivers</span>
+          <span class="skill-pill" data-skill="schematic">Schematic Capture</span>
+          <span class="skill-pill" data-skill="easyeda">EasyEDA</span>
+          <span class="skill-pill" data-skill="spice">SiMetrix (SPICE)</span>
+          <span class="skill-pill" data-skill="pcb">Custom PCB Layout</span>
+          <span class="skill-pill" data-skill="sensors">Sensor Integration</span>
+          <span class="skill-pill" data-skill="motor-drivers">Motor Drivers</span>
         </div>
       </div>
       <div class="skill-group">
         <div class="skill-group-label">Manufacturing</div>
         <div class="skill-list">
-          <span class="skill-pill">CNC Machining</span>
-          <span class="skill-pill">3D Printing</span>
-          <span class="skill-pill">Injection Molding</span>
-          <span class="skill-pill">Rapid Prototyping</span>
-          <span class="skill-pill">Fixture Design</span>
-          <span class="skill-pill">Hand Machining</span>
+          <span class="skill-pill" data-skill="cnc">CNC Machining</span>
+          <span class="skill-pill" data-skill="3dprint">3D Printing</span>
+          <span class="skill-pill" data-skill="injection">Injection Molding</span>
+          <span class="skill-pill" data-skill="prototyping">Rapid Prototyping</span>
+          <span class="skill-pill" data-skill="fixtures">Fixture Design</span>
+          <span class="skill-pill" data-skill="machining">Hand Machining</span>
         </div>
       </div>
     </div>
@@ -973,7 +1015,7 @@
 
   <!-- ABOUT -->
   <section id="about">
-    <p class="section-label">04 — About</p>
+    <p class="section-label">03 — About</p>
     <h2>A Bit About Me</h2>
 
     <div class="about-layout">
@@ -1045,5 +1087,87 @@
     </span>
   </footer>
 
+  <script>
+    // ── More-tile visibility ──
+    const grid = document.querySelector('.projects-grid');
+    const moreTile = document.getElementById('moreTile');
+
+    function updateMoreTile() {
+      const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
+      const realCards = grid.querySelectorAll('.project-card').length;
+      moreTile.style.display = (realCards % cols !== 0) ? '' : 'none';
+    }
+
+    updateMoreTile();
+    window.addEventListener('resize', updateMoreTile);
+
+    // ── Skill filtering ──
+    const pills = document.querySelectorAll('.skill-pill[data-skill]');
+    const cards = document.querySelectorAll('.project-card[data-skills]');
+    const filterStatus = document.getElementById('filterStatus');
+    const filterTags = document.getElementById('filterTags');
+    const filterClear = document.getElementById('filterClear');
+    const active = new Set();
+
+    // Inject a hidden match-tag span into every project card
+    cards.forEach(card => {
+      const tag = document.createElement('span');
+      tag.className = 'skill-match-tag';
+      card.style.position = 'relative';
+      card.insertBefore(tag, card.firstChild);
+    });
+
+    // Map skill slug → display label from pills
+    const skillLabel = {};
+    pills.forEach(p => { skillLabel[p.dataset.skill] = p.textContent.trim(); });
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const skill = pill.dataset.skill;
+        if (active.has(skill)) {
+          active.delete(skill);
+          document.querySelectorAll(`.skill-pill[data-skill="${skill}"]`).forEach(p => p.classList.remove('active'));
+        } else {
+          active.add(skill);
+          document.querySelectorAll(`.skill-pill[data-skill="${skill}"]`).forEach(p => p.classList.add('active'));
+        }
+        update();
+      });
+    });
+
+    filterClear.addEventListener('click', () => {
+      active.clear();
+      pills.forEach(p => p.classList.remove('active'));
+      update();
+    });
+
+    function update() {
+      if (active.size === 0) {
+        cards.forEach(card => {
+          card.classList.remove('skill-match');
+          card.querySelector('.skill-match-tag').textContent = '';
+        });
+        filterStatus.classList.remove('visible');
+        return;
+      }
+
+      // Update filter status bar
+      filterStatus.classList.add('visible');
+      filterTags.textContent = [...active].map(s => skillLabel[s] || s).join(' + ');
+
+      cards.forEach(card => {
+        const cardSkills = card.dataset.skills.split(',');
+        const matched = cardSkills.filter(s => active.has(s));
+        if (matched.length > 0) {
+          card.classList.add('skill-match');
+          card.querySelector('.skill-match-tag').textContent =
+            matched.map(s => skillLabel[s] || s).join(' · ');
+        } else {
+          card.classList.remove('skill-match');
+          card.querySelector('.skill-match-tag').textContent = '';
+        }
+      });
+    }
+  </script>
 </body>
 </html>

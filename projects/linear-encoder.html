@@ -111,9 +111,11 @@
     .img-grid.cols-2{grid-template-columns:1fr 1fr;}
     .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
     .img-figure{display:flex;flex-direction:column;gap:0.5rem;}
-    .img-wrap{position:relative;width:100%;aspect-ratio:16/9;
+    .img-wrap{position:relative;width:100%;
       background:var(--surface);border:1px solid var(--border);overflow:hidden;}
-    .img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .img-wrap:not(:has(>img.loaded)){aspect-ratio:4/3;}
+    .img-wrap img{display:block;width:100%;height:auto;}
+    .img-figure{align-self:start;}
     .img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
       align-items:center;justify-content:center;gap:0.4rem;padding:1rem;}
     .placeholder-icon{font-size:1.4rem;opacity:0.18;}
@@ -264,7 +266,7 @@
     </div>
   </div>
   <div class="case-section">
-    <p class="section-eyebrow">04 — Impact</p>
+    <p class="section-eyebrow">04 — Result</p>
     <h2>Grind reliability — and taste — improved</h2>
     <div class="impact-grid">
       <div class="impact-stat"><div class="impact-num">±10μm</div><div class="impact-label">Position resolution</div></div>
@@ -272,6 +274,12 @@
       <div class="impact-stat"><div class="impact-num">0</div><div class="impact-label">Off-shelf alternatives that fit</div></div>
     </div>
     <p>Closing the grind size feedback loop directly improved taste consistency across the Brewbird fleet. The project demonstrated a repeatable methodology for novel sensing under tight size and cost constraints.</p>
+  </div>
+  <div class="case-section">
+    <p class="section-eyebrow">05 — Key Learning</p>
+    <h2>The validation fixture is as important as the sensor</h2>
+    <p>Claiming ±10μm accuracy is meaningless without a ground-truth reference to measure against. Building the test rig with a precision reference encoder was as much a design challenge as the sensor itself — and it's what turned a promising prototype into a validated design. Without it, the spec would be a guess.</p>
+    <p>The broader lesson: when no off-the-shelf solution exists, it's usually because the specific combination of constraints hasn't been tried, not because it's impossible. Capacitive sensing at this scale wasn't novel — applying it within this particular size, cost, and contamination envelope was. <strong>Working from first principles under tight constraints produces solutions the market doesn't have yet.</strong></p>
   </div>
   <div class="project-nav">
     <a href="clipper-guard.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">Shane's Clipper Guard</div></a>

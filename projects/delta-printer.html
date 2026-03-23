@@ -111,9 +111,11 @@
     .img-grid.cols-2{grid-template-columns:1fr 1fr;}
     .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
     .img-figure{display:flex;flex-direction:column;gap:0.5rem;}
-    .img-wrap{position:relative;width:100%;aspect-ratio:16/9;
+    .img-wrap{position:relative;width:100%;
       background:var(--surface);border:1px solid var(--border);overflow:hidden;}
-    .img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .img-wrap:not(:has(>img.loaded)){aspect-ratio:4/3;}
+    .img-wrap img{display:block;width:100%;height:auto;}
+    .img-figure{align-self:start;}
     .img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
       align-items:center;justify-content:center;gap:0.4rem;padding:1rem;}
     .placeholder-icon{font-size:1.4rem;opacity:0.18;}
@@ -263,7 +265,7 @@
     </div>
   </div>
   <div class="case-section">
-    <p class="section-eyebrow">04 — Impact</p>
+    <p class="section-eyebrow">04 — Result</p>
     <h2>Faster than commercial. Built from scratch.</h2>
     <div class="impact-grid">
       <div class="impact-stat"><div class="impact-num">5</div><div class="impact-label">Major design revisions</div></div>
@@ -271,6 +273,12 @@
       <div class="impact-stat"><div class="impact-num">0.005"</div><div class="impact-label">Arm length tolerance</div></div>
     </div>
     <p>Every revision taught something distinct — kinematic geometry, tolerance stack, firmware calibration, thermal design. The copper heater block design directly influenced how I think about heat transfer constraints at Brewbird.</p>
+  </div>
+  <div class="case-section">
+    <p class="section-eyebrow">05 — Key Learning</p>
+    <h2>Physical iteration reveals what CAD can't</h2>
+    <p>Every revision exposed a failure mode invisible in the model — magnetic joints disconnecting under acceleration, conical bed error from a "virtual uneven four-bar," first-layer inconsistency from residual geometry error. None appeared in simulation. They required building, measuring, and rebuilding.</p>
+    <p>The most transferable insight was the <strong>"reality tune" principle</strong>: explicitly characterizing the gap between what the model says and what the machine actually does, then encoding that gap into the software geometry description. Every precision system I've designed since has needed some version of this step.</p>
   </div>
   <div class="project-nav">
     <a href="data-logger.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">ESP32 Data Logger</div></a>

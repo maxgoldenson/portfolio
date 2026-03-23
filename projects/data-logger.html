@@ -67,20 +67,12 @@
       border: 1px solid var(--border);
       overflow: hidden;
     }
-    /* Default 16:9 */
-    .img-wrap { aspect-ratio: 16 / 9; }
-    /* Wide schematic slot — shorter ratio so it spans wide without too much height */
-    .img-wrap.ratio-schematic { aspect-ratio: 16 / 7; }
-    /* Square-ish for PCB trace close-ups */
-    .img-wrap.ratio-square { aspect-ratio: 4 / 3; }
-    /* 2:1 wide */
-    .img-wrap.ratio-2x1 { aspect-ratio: 2 / 1; }
-    /* Portrait — firmware flowchart 502×681 at 60% width, centered */
-    .img-wrap.ratio-flowchart { aspect-ratio: 502 / 681; width: 60%; margin: 0 auto; }
-    /* Wide data output plot 1404×535 */
-    .img-wrap.ratio-dataplot { aspect-ratio: 1404 / 535; }
+    .img-wrap:not(:has(> img.loaded)) { aspect-ratio: 4/3; }
+    /* Portrait flowchart — constrained to 60% width and centered */
+    .img-wrap.ratio-flowchart { width: 60%; margin: 0 auto; }
 
-    .img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-wrap img { display: block; width: 100%; height: auto; }
+    .img-figure { align-self: start; }
     .img-wrap img.loaded + .img-placeholder { display: none; }
 
     .img-placeholder {
@@ -295,7 +287,7 @@
 
   <!-- 02 HARDWARE -->
   <div class="case-section">
-    <p class="section-eyebrow">02 — Hardware</p>
+    <p class="section-eyebrow">02 — Process</p>
     <h2>Designed for the environment, not the bench</h2>
     <p>The PCB was designed around three constraints: fit the physical envelope of the machine, survive the electrical environment (motor noise, inductive spikes), and run continuously from a small battery or USB supply without thermal issues.</p>
 
@@ -402,7 +394,7 @@
 
   <!-- 03 FIRMWARE -->
   <div class="case-section">
-    <p class="section-eyebrow">03 — Firmware Architecture</p>
+    <p class="section-eyebrow">03 — Solution</p>
     <h2>Decoupling acquisition from storage</h2>
     <p>Writing directly to an SD card at 10k samples/sec isn't possible — SPI flash writes have variable latency that will cause sample drops. The solution is to decouple the two operations entirely using a <strong>lockless ring buffer in SRAM</strong> as an intermediary.</p>
 
@@ -444,7 +436,7 @@
 
   <!-- 04 IMPACT -->
   <div class="case-section">
-    <p class="section-eyebrow">04 — Impact</p>
+    <p class="section-eyebrow">04 — Result</p>
     <h2>Root causes found. Debug cycles cut from weeks to days.</h2>
 
     <div class="impact-grid">
@@ -480,6 +472,14 @@
       <span class="tech-chip">MicroSD</span>
       <span class="tech-chip">Python</span>
     </div>
+  </div>
+
+  <!-- 05 KEY LEARNING -->
+  <div class="case-section">
+    <p class="section-eyebrow">05 — Key Learning</p>
+    <h2>Decouple systems with different timing requirements</h2>
+    <p>The core architectural insight was that acquisition and storage are two fundamentally different operations with incompatible timing constraints, and trying to do them in the same task creates an unsolvable tension. The ring buffer as intermediary is the general solution — decouple the producer from the consumer and let each run at its own rate. This pattern applies anywhere you have a fast real-time source feeding a slow, variable-latency sink.</p>
+    <p>The second lesson was about the value of <strong>custom tooling for intermittent failures</strong>. When a bug only appears after 400 cycles under load, the instrument matters as much as the debug process. Commercial solutions weren't designed for this constraint set — building the right tool was faster than adapting the wrong one.</p>
   </div>
 
   <!-- PROJECT NAV -->

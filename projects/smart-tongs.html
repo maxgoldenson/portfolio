@@ -111,9 +111,11 @@
     .img-grid.cols-2{grid-template-columns:1fr 1fr;}
     .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
     .img-figure{display:flex;flex-direction:column;gap:0.5rem;}
-    .img-wrap{position:relative;width:100%;aspect-ratio:16/9;
+    .img-wrap{position:relative;width:100%;
       background:var(--surface);border:1px solid var(--border);overflow:hidden;}
-    .img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .img-wrap:not(:has(>img.loaded)){aspect-ratio:4/3;}
+    .img-wrap img{display:block;width:100%;height:auto;}
+    .img-figure{align-self:start;}
     .img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
       align-items:center;justify-content:center;gap:0.4rem;padding:1rem;}
     .placeholder-icon{font-size:1.4rem;opacity:0.18;}
@@ -263,7 +265,7 @@
     </div>
   </div>
   <div class="case-section">
-    <p class="section-eyebrow">04 — Impact</p>
+    <p class="section-eyebrow">04 — Result</p>
     <h2>Award-winning. Deployable.</h2>
     <div class="impact-grid">
       <div class="impact-stat"><div class="impact-num">±0.1°</div><div class="impact-label">Hinge encoder accuracy</div></div>
@@ -271,6 +273,12 @@
       <div class="impact-stat"><div class="impact-num">🏆</div><div class="impact-label">Sustainability award won</div></div>
     </div>
     <p>Won a sustainability award and demonstrated a complete embedded product design cycle — from problem framing through custom silicon to validated prototype.</p>
+  </div>
+  <div class="case-section">
+    <p class="section-eyebrow">05 — Key Learning</p>
+    <h2>Power budget forces every design decision</h2>
+    <p>Designing for 30-day battery life on a physically handled device is a different problem than designing for low average power. Every peripheral, every ISR, every network transaction had to be evaluated against the budget. This constraint made the design better — it eliminated convenience features that would have been noise, and forced aggressive sleep mode design that proved the hardware's real capabilities.</p>
+    <p>Owning the full hardware stack — from sensor selection through schematic capture through firmware — meant that tradeoffs between power, response time, and accuracy were always explicit, never inherited from a dev board's assumptions.</p>
   </div>
   <div class="project-nav">
     <a href="delta-printer.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">Custom Delta 3D Printer</div></a>

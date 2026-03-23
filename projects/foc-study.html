@@ -111,9 +111,11 @@
     .img-grid.cols-2{grid-template-columns:1fr 1fr;}
     .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
     .img-figure{display:flex;flex-direction:column;gap:0.5rem;}
-    .img-wrap{position:relative;width:100%;aspect-ratio:16/9;
+    .img-wrap{position:relative;width:100%;
       background:var(--surface);border:1px solid var(--border);overflow:hidden;}
-    .img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .img-wrap:not(:has(>img.loaded)){aspect-ratio:4/3;}
+    .img-wrap img{display:block;width:100%;height:auto;}
+    .img-figure{align-self:start;}
     .img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
       align-items:center;justify-content:center;gap:0.4rem;padding:1rem;}
     .placeholder-icon{font-size:1.4rem;opacity:0.18;}
@@ -239,7 +241,7 @@
     </div>
   </div>
   <div class="case-section">
-    <p class="section-eyebrow">04 — Impact</p>
+    <p class="section-eyebrow">04 — Result</p>
     <h2>First-principles motor knowledge that transfers everywhere</h2>
     <div class="impact-grid">
       <div class="impact-stat"><div class="impact-num">FOC</div><div class="impact-label">Implemented from scratch</div></div>
@@ -247,6 +249,12 @@
       <div class="impact-stat"><div class="impact-num">∞</div><div class="impact-label">Black boxes eliminated</div></div>
     </div>
     <p>Understanding FOC at this level changes how you approach every motor selection, driver spec, and tuning conversation. It can't come from reading documentation — it requires building, breaking, and rebuilding until the physics is intuitive.</p>
+  </div>
+  <div class="case-section">
+    <p class="section-eyebrow">05 — Key Learning</p>
+    <h2>Implementation is faster than documentation</h2>
+    <p>Reading about the Park-Clarke transform gives you a formula. Implementing it, getting the wrong waveforms, and debugging back to the math gives you intuition that survives contact with a real motor. Tuning the PI current loops empirically — watching current waveforms respond to gain changes — taught more about control bandwidth in an afternoon than any textbook chapter.</p>
+    <p>The practical outcome: understanding FOC deeply enough to <strong>reason about tuning, diagnose problems, and specify drivers from first principles</strong> — not from copying settings from application notes. That level of understanding only comes from building it yourself.</p>
   </div>
   <div class="project-nav">
     <a href="pain-depi.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">Pain d'Épi Robot</div></a>

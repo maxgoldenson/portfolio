@@ -111,9 +111,11 @@
     .img-grid.cols-2{grid-template-columns:1fr 1fr;}
     .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
     .img-figure{display:flex;flex-direction:column;gap:0.5rem;}
-    .img-wrap{position:relative;width:100%;aspect-ratio:16/9;
+    .img-wrap{position:relative;width:100%;
       background:var(--surface);border:1px solid var(--border);overflow:hidden;}
-    .img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .img-wrap:not(:has(>img.loaded)){aspect-ratio:4/3;}
+    .img-wrap img{display:block;width:100%;height:auto;}
+    .img-figure{align-self:start;}
     .img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
       align-items:center;justify-content:center;gap:0.4rem;padding:1rem;}
     .placeholder-icon{font-size:1.4rem;opacity:0.18;}
@@ -262,7 +264,7 @@
     </div>
   </div>
   <div class="case-section">
-    <p class="section-eyebrow">04 — Impact</p>
+    <p class="section-eyebrow">04 — Result</p>
     <h2>Curie Division Finalists. 4th in the world.</h2>
     <div class="impact-grid">
       <div class="impact-stat"><div class="impact-num">4th</div><div class="impact-label">Statbotics world ranking</div></div>
@@ -270,6 +272,12 @@
       <div class="impact-stat"><div class="impact-num">25</div><div class="impact-label">Team members led</div></div>
     </div>
     <p>The project established a design methodology — architecture documentation, subsystem validation, FEA iteration — that I've carried into every engineering role since.</p>
+  </div>
+  <div class="case-section">
+    <p class="section-eyebrow">05 — Key Learning</p>
+    <h2>Document the why, not just the what</h2>
+    <p>The architecture decision deck wasn't overhead — it was the mechanism that kept 25 people building in the same direction. Capturing not just what we decided but why prevented backtracking when new information arrived, and made it easy to evaluate proposed changes against stated requirements.</p>
+    <p>The torsional wire testing was the other key insight: <strong>proving subsystem margins before full integration is always cheaper than discovering failures in competition</strong>. The jig cost an afternoon to build. Discovering the failure without it would have cost multiple competition matches.</p>
   </div>
   <div class="project-nav">
     <a href="smart-tongs.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">Smart Tongs</div></a>

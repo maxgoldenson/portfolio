@@ -128,6 +128,27 @@
       letter-spacing:0.08em;line-height:1.5;text-align:center;}
     .img-wrap img.loaded + .img-placeholder{display:none;}
 
+    /* ── VIDEO ── */
+    .video-wrap { position: relative; width: 100%; background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
+    .video-wrap video { display: block; width: 100%; height: auto; }
+    .video-sound-btn {
+      position: absolute;
+      bottom: 0.6rem;
+      right: 0.6rem;
+      background: rgba(10,10,15,0.75);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.55rem;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      backdrop-filter: blur(4px);
+    }
+    .video-sound-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .video-sound-btn.unmuted { color: var(--accent); border-color: var(--accent); }
+
     @media(max-width:768px){
       nav{padding:1rem 1.5rem;}
       .project-hero,.project-content{padding-left:1.5rem;padding-right:1.5rem;}
@@ -175,13 +196,13 @@
         <figcaption class="img-caption">REV 1 printer assembled</figcaption>
       </figure>
       <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/delta-printer/02-failed-print.jpg" alt="Failed print showing leveling / geometry issue">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">02-failed-print.jpg</span>
-            <span class="placeholder-folder">images/delta-printer/</span>
-          </div>
+        <div class="video-wrap">
+          <video id="video02" src="../images/delta-printer/02-failed-print.mp4"
+            autoplay muted playsinline>
+          </video>
+          <button class="video-sound-btn" id="soundBtn02" title="Toggle sound">
+            🔇 sound off
+          </button>
         </div>
         <figcaption class="img-caption">Failed print showing leveling / geometry issue</figcaption>
       </figure>
@@ -239,13 +260,13 @@
     <p>The custom heater block alone enables <strong>2–3× higher volumetric flow</strong> than stock hotends — the primary limiter of print speed at high acceleration.</p>
         <div class="img-grid cols-2">
       <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/delta-printer/06-final-printer.jpg" alt="Final REV 5 printer — full view">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">06-final-printer.jpg</span>
-            <span class="placeholder-folder">images/delta-printer/</span>
-          </div>
+        <div class="video-wrap">
+          <video id="video06" src="../images/delta-printer/06-final-printer.mp4"
+            autoplay loop muted playsinline>
+          </video>
+          <button class="video-sound-btn" id="soundBtn06" title="Toggle sound">
+            🔇 sound off
+          </button>
         </div>
         <figcaption class="img-caption">Final REV 5 printer — full view</figcaption>
       </figure>
@@ -274,6 +295,18 @@
       <div class="impact-stat"><div class="impact-num">0.005"</div><div class="impact-label">Arm length tolerance</div></div>
     </div>
     <p>Every revision taught something distinct — kinematic geometry, tolerance stack, firmware calibration, thermal design. The copper heater block design directly influenced how I think about heat transfer constraints at Brewbird.</p>
+
+    <div class="callout"><p>"The goal: finish the benchy. Quality is irrelevant. Just go fast."</p></div>
+    <p>Speed benchy attempt — printer running at maximum input shaper-tuned acceleration with no quality constraints. The objective is completion time only.</p>
+    <div class="video-wrap" style="margin-top:1.5rem;">
+      <video id="video-benchy" src="../images/delta-printer/08-speed-benchy.mp4"
+        autoplay loop muted playsinline>
+      </video>
+      <button class="video-sound-btn" id="soundBtnBenchy" title="Toggle sound">
+        🔇 sound off
+      </button>
+    </div>
+    <p class="img-caption" style="margin-top:0.5rem;">Speed benchy attempt — full send, no quality constraints</p>
   </div>
   <div class="case-section">
     <p class="section-eyebrow">05 — Key Learning</p>
@@ -293,6 +326,30 @@
 
 <script>
   // Mark images that load successfully so placeholder hides via CSS
+  // Sound toggles for videos
+  // Hold last frame for 3s before restarting
+  const video02 = document.getElementById('video02');
+  if (video02) {
+    video02.addEventListener('ended', () => {
+      setTimeout(() => {
+        video02.currentTime = 0;
+        video02.play();
+      }, 3000);
+    });
+  }
+
+  [['video02', 'soundBtn02'], ['video06', 'soundBtn06'], ['video-benchy', 'soundBtnBenchy']].forEach(([vid, btn]) => {
+    const video = document.getElementById(vid);
+    const button = document.getElementById(btn);
+    if (video && button) {
+      button.addEventListener('click', () => {
+        video.muted = !video.muted;
+        button.textContent = video.muted ? '🔇 sound off' : '🔊 sound on';
+        button.classList.toggle('unmuted', !video.muted);
+      });
+    }
+  });
+
   document.querySelectorAll('.img-wrap img').forEach(img => {
     if (img.complete && img.naturalWidth > 0) {
       img.classList.add('loaded');

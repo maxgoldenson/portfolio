@@ -147,9 +147,9 @@
   <div class="back-crumb"><a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / Linear Capacitive Encoder</div>
   <div class="project-category">Sensors / Embedded</div>
   <h1>Linear Capacitive Encoder</h1>
-  <p class="project-tagline">A sub-$5 high-accuracy linear position sensor achieving ±10μm resolution — designed from theory to validated prototype because the market had no good solution at this size and price.</p>
+  <p class="project-tagline">A sub-$5 high-accuracy linear position sensor achieving ±20μm resolution — designed from theory to validated prototype because the market had no good solution at this size and price.</p>
   <div class="meta-row">
-    <div class="meta-item"><div class="meta-label">Precision</div><div class="meta-value">±10 μm</div></div>
+    <div class="meta-item"><div class="meta-label">Precision</div><div class="meta-value">±20 μm</div></div>
     <div class="meta-item"><div class="meta-label">Cost</div><div class="meta-value">&lt; $5</div></div>
     <div class="meta-item"><div class="meta-label">Type</div><div class="meta-value">Capacitive / PCB</div></div>
     <div class="meta-item"><div class="meta-label">Context</div><div class="meta-value">Brewbird — Grinder Module</div></div>
@@ -160,7 +160,7 @@
     <p class="section-eyebrow">01 — Problem</p>
     <h2>No sensor fit the constraints</h2>
     <p>At Brewbird, the coffee grinder module required precise linear position feedback to reliably control grind size — which directly determines taste. The existing solution was inconsistent, leading to grind variance and unpredictable brew quality.</p>
-    <p>Off-the-shelf linear encoders were <strong>too large</strong>, <strong>too expensive</strong>, or not accurate enough for the ±10μm tolerance the application demanded. There was a genuine gap in the market.</p>
+    <p>Off-the-shelf linear encoders were <strong>too large</strong>, <strong>too expensive</strong>, or not accurate enough for the ±20μm tolerance the application demanded. There was a genuine gap in the market.</p>
     <div class="callout"><p>"When existing solutions lacked a balance of size and accuracy, I had to develop a novel approach from first principles."</p></div>
         <div class="img-grid cols-2">
       <figure class="img-figure">
@@ -195,7 +195,7 @@
       <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Theoretical modeling</h4><p>Derived capacitance-vs-displacement from first principles. Modeled fringe fields and parasitic capacitance affecting accuracy at small scales.</p></div></div>
       <div class="step"><div class="step-num">02</div><div class="step-content"><h4>PCB geometry design</h4><p>Designed electrode geometry in EasyEDA to maximize sensitivity and minimize cross-axis error. Iterated on guard ring placement to reject environmental noise.</p></div></div>
       <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Prototype fabrication</h4><p>Ordered PCB prototypes and assembled the capacitive sensing circuit with a capacitance-to-digital converter IC. Wrote firmware to read and filter position data.</p></div></div>
-      <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Validation & characterization</h4><p>Built a test fixture to measure encoder output against a ground-truth reference. Characterized linearity, hysteresis, and repeatability until ±10μm was reliably achieved.</p></div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Validation & characterization</h4><p>Built a test fixture to measure encoder output against a ground-truth reference. Characterized linearity, hysteresis, and repeatability until ±20μm was reliably achieved.</p></div></div>
     </div>
         <div class="img-grid cols-3">
       <figure class="img-figure">
@@ -270,7 +270,7 @@
     <p class="section-eyebrow">04 — Result</p>
     <h2>Grind reliability — and taste — improved</h2>
     <div class="impact-grid">
-      <div class="impact-stat"><div class="impact-num">±10μm</div><div class="impact-label">Position resolution</div></div>
+      <div class="impact-stat"><div class="impact-num">±20μm</div><div class="impact-label">Position resolution</div></div>
       <div class="impact-stat"><div class="impact-num">&lt;$5</div><div class="impact-label">BOM cost at scale</div></div>
       <div class="impact-stat"><div class="impact-num">0</div><div class="impact-label">Off-shelf alternatives that fit</div></div>
     </div>
@@ -279,7 +279,7 @@
   <div class="case-section">
     <p class="section-eyebrow">05 — Key Learning</p>
     <h2>The validation fixture is as important as the sensor</h2>
-    <p>Claiming ±10μm accuracy is meaningless without a ground-truth reference to measure against. Building the test rig with a precision reference encoder was as much a design challenge as the sensor itself — and it's what turned a promising prototype into a validated design. Without it, the spec would be a guess.</p>
+    <p>Claiming ±20μm accuracy is meaningless without a ground-truth reference to measure against. Building the test rig with a precision reference encoder was as much a design challenge as the sensor itself — and it's what turned a promising prototype into a validated design. Without it, the spec would be a guess.</p>
     <p>The broader lesson: when no off-the-shelf solution exists, it's usually because the specific combination of constraints hasn't been tried, not because it's impossible. Capacitive sensing at this scale wasn't novel — applying it within this particular size, cost, and contamination envelope was. <strong>Working from first principles under tight constraints produces solutions the market doesn't have yet.</strong></p>
   </div>
   <div class="project-nav">
@@ -303,6 +303,7 @@
     }
   });
 </script>
+  <script src="../lightbox.js"></script>
 
 </body>
 </html>

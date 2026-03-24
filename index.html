@@ -774,7 +774,7 @@
 
       <div class="hero-stats fade-in">
         <div class="stat">
-          <div class="stat-num">±10μm</div>
+          <div class="stat-num">±20μm</div>
           <div class="stat-label">Encoder precision</div>
         </div>
         <div class="stat">
@@ -818,7 +818,7 @@
         <div class="project-title">Linear Capacitive Encoder</div>
         <p class="project-desc">
           Designed, prototyped, and validated a high-accuracy linear position sensor using plate capacitance.
-          Achieved ±10μm resolution for under $5 — born from the need for a sensor balancing size and accuracy
+          Achieved ±20μm resolution for under $5 — born from the need for a sensor balancing size and accuracy
           that didn't exist on the market.
         </p>
         <div class="project-tech">
@@ -1064,7 +1064,7 @@
         </p>
         <p>
           My personal projects reflect the same drive: a custom delta 3D printer iterated through five major
-          revisions, a sub-$5 linear encoder accurate to ±10μm, smart food-waste-reducing tongs with a custom
+          revisions, a sub-$5 linear encoder accurate to ±20μm, smart food-waste-reducing tongs with a custom
           PCB, and deep dives into FOC motor control from first principles.
         </p>
         <p>
@@ -1109,6 +1109,9 @@
     const filterClear = document.getElementById('filterClear');
     const active = new Set();
 
+    // Remember original DOM order for restoring later
+    const originalOrder = [...cards];
+
     // Inject a hidden match-tag span into every project card
     cards.forEach(card => {
       const tag = document.createElement('span');
@@ -1124,10 +1127,12 @@
     pills.forEach(pill => {
       pill.addEventListener('click', () => {
         const skill = pill.dataset.skill;
-        if (active.has(skill)) {
-          active.delete(skill);
-          document.querySelectorAll(`.skill-pill[data-skill="${skill}"]`).forEach(p => p.classList.remove('active'));
-        } else {
+        const wasActive = active.has(skill);
+        // Clear all
+        active.clear();
+        pills.forEach(p => p.classList.remove('active'));
+        // Toggle: re-select only if it wasn't already active
+        if (!wasActive) {
           active.add(skill);
           document.querySelectorAll(`.skill-pill[data-skill="${skill}"]`).forEach(p => p.classList.add('active'));
         }
@@ -1143,11 +1148,14 @@
 
     function update() {
       if (active.size === 0) {
-        cards.forEach(card => {
+        // Restore original order
+        originalOrder.forEach(card => {
           card.classList.remove('skill-match');
           card.querySelector('.skill-match-tag').textContent = '';
+          grid.insertBefore(card, moreTile);
         });
         filterStatus.classList.remove('visible');
+        updateMoreTile();
         return;
       }
 
@@ -1155,7 +1163,8 @@
       filterStatus.classList.add('visible');
       filterTags.textContent = [...active].map(s => skillLabel[s] || s).join(' + ');
 
-      cards.forEach(card => {
+      // Score each card by number of matched skills, update tags
+      const scored = originalOrder.map(card => {
         const cardSkills = card.dataset.skills.split(',');
         const matched = cardSkills.filter(s => active.has(s));
         if (matched.length > 0) {
@@ -1166,7 +1175,13 @@
           card.classList.remove('skill-match');
           card.querySelector('.skill-match-tag').textContent = '';
         }
+        return { card, score: matched.length };
       });
+
+      // Sort: matched first (desc by count), non-matched keep relative order
+      scored.sort((a, b) => b.score - a.score);
+      scored.forEach(({ card }) => grid.insertBefore(card, moreTile));
+      updateMoreTile();
     }
   </script>
 </body>

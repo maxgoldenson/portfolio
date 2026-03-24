@@ -57,6 +57,12 @@
     .case-section p{font-size:0.95rem;line-height:1.8;color:var(--text-dim);margin-bottom:1rem;max-width:680px;}
     .case-section p strong{color:var(--text);}
     .case-section p:last-child{margin-bottom:0;}
+    /* SUBSECTION */
+    .subsection{margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);}
+    .subsection-label{font-family:var(--mono);font-size:0.62rem;color:var(--text-dimmer);
+      letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.6rem;}
+    .subsection h3{font-size:1.1rem;font-weight:700;letter-spacing:-0.01em;margin-bottom:1rem;color:var(--text);}
+    .subsection p{font-size:0.9rem;line-height:1.75;color:var(--text-dim);margin-bottom:1rem;max-width:680px;}
     /* CALLOUT */
     .callout{background:var(--surface);border-left:3px solid var(--accent);padding:1.5rem 2rem;margin:2rem 0;}
     .callout p{font-size:1rem;line-height:1.7;color:var(--text);font-style:italic;margin:0;max-width:none;}
@@ -67,15 +73,6 @@
       width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     .step-content h4{font-size:0.95rem;font-weight:700;margin-bottom:0.35rem;}
     .step-content p{font-size:0.85rem;line-height:1.65;color:var(--text-dim);margin:0;max-width:none;}
-    /* REVISION TIMELINE */
-    .rev-timeline{display:flex;flex-direction:column;margin:2rem 0;}
-    .rev-item{display:grid;grid-template-columns:5rem 1fr;border-bottom:1px solid var(--border);}
-    .rev-item:last-child{border-bottom:none;}
-    .rev-label{font-family:var(--mono);font-size:0.72rem;color:var(--accent);
-      padding:1.25rem 1rem 1.25rem 0;border-right:1px solid var(--border);letter-spacing:0.08em;}
-    .rev-content{padding:1.25rem 0 1.25rem 1.5rem;}
-    .rev-content h4{font-size:0.9rem;font-weight:700;margin-bottom:0.3rem;}
-    .rev-content p{font-size:0.82rem;line-height:1.6;color:var(--text-dim);margin:0;}
     /* FEATURE GRID */
     .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:2rem 0;}
     .feature-item{background:var(--bg2);padding:1.5rem;}
@@ -111,6 +108,12 @@
     .img-grid{display:grid;gap:1rem;margin:2rem 0;}
     .img-grid.cols-2{grid-template-columns:1fr 1fr;}
     .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+    /* One hero image spanning full width, two equal below */
+    .img-grid.hero-plus-two{grid-template-columns:1fr 1fr;}
+    .img-grid.hero-plus-two .img-figure:first-child{grid-column:1 / -1;}
+    /* One hero image spanning full width, three equal below */
+    .img-grid.hero-plus-three{grid-template-columns:1fr 1fr 1fr;}
+    .img-grid.hero-plus-three .img-figure:first-child{grid-column:1 / -1;}
     .img-figure{display:flex;flex-direction:column;gap:0.5rem;}
     .img-wrap{position:relative;width:100%;
       background:var(--surface);border:1px solid var(--border);overflow:hidden;}
@@ -131,7 +134,8 @@
     @media(max-width:768px){
       nav{padding:1rem 1.5rem;}
       .project-hero,.project-content{padding-left:1.5rem;padding-right:1.5rem;}
-      .img-grid.cols-2,.img-grid.cols-3,.feature-grid{grid-template-columns:1fr;}
+      .img-grid.cols-2,.img-grid.cols-3,.img-grid.hero-plus-two,.img-grid.hero-plus-three,.feature-grid{grid-template-columns:1fr;}
+      .img-grid.hero-plus-two .img-figure:first-child,.img-grid.hero-plus-three .img-figure:first-child{grid-column:auto;}
       .project-nav{grid-template-columns:1fr;}
       .proj-nav-link.next{text-align:left;}
     }
@@ -155,17 +159,20 @@
     <div class="meta-item"><div class="meta-label">Award</div><div class="meta-value">Sustainability Award</div></div>
   </div>
 </div>
+
 <div class="project-content">
+
+  <!-- ── 01 PROBLEM ── -->
   <div class="case-section">
     <p class="section-eyebrow">01 — Problem</p>
     <h2>Students over-serve. No one notices until it's too late.</h2>
     <p>Food waste in cafeteria settings is largely driven by oversized initial servings. There's no real-time feedback at the point of serving to nudge behavior — signage and portion guides are passive and ignored.</p>
     <p>We needed something <strong>embedded in the act of serving itself</strong> — unobtrusive, immediate, and quantifiable.</p>
     <div class="callout"><p>"Students need a way to be mindful of their consumption habits — at the moment it matters, not after."</p></div>
-        <div class="img-grid cols-2">
+    <div class="img-grid cols-2">
       <figure class="img-figure">
         <div class="img-wrap">
-          <img src="../images/smart-tongs/01-cafeteria-context.jpg" alt="Cafeteria serving context">
+          <img src="../images/smart-tongs/01-cafeteria-context.jpg" alt="Cafeteria serving context" onload="this.classList.add('loaded')">
           <div class="img-placeholder">
             <span class="placeholder-icon">📷</span>
             <span class="placeholder-filename">01-cafeteria-context.jpg</span>
@@ -176,7 +183,7 @@
       </figure>
       <figure class="img-figure">
         <div class="img-wrap">
-          <img src="../images/smart-tongs/02-concept-cad.jpg" alt="Early concept sketch / SolidWorks render">
+          <img src="../images/smart-tongs/02-concept-cad.jpg" alt="Early concept sketch / SolidWorks render" onload="this.classList.add('loaded')">
           <div class="img-placeholder">
             <span class="placeholder-icon">📷</span>
             <span class="placeholder-filename">02-concept-cad.jpg</span>
@@ -187,6 +194,8 @@
       </figure>
     </div>
   </div>
+
+  <!-- ── 02 PROCESS ── -->
   <div class="case-section">
     <p class="section-eyebrow">02 — Process</p>
     <h2>System design from hardware to wireless</h2>
@@ -197,50 +206,143 @@
       <div class="feature-item"><div class="feature-label">Power management</div><div class="feature-desc">30-day battery life via aggressive sleep modes and a motion-triggered wake circuit fed by the IMU. Smart voltage monitoring and temperature shutoff protect the 2200mAh Li-ion cell.</div></div>
       <div class="feature-item"><div class="feature-label">User feedback</div><div class="feature-desc">OLED display shows current and cumulative serving data. Rumble motor and piezo buzzer provide haptic and audio cues when a threshold is exceeded.</div></div>
     </div>
-        <div class="img-grid cols-3">
-      <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/smart-tongs/03-teu-pcb.jpg" alt="TEU PCB — REV 1.3">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">03-teu-pcb.jpg</span>
-            <span class="placeholder-folder">images/smart-tongs/</span>
+
+    <!-- PCB Design -->
+    <div class="subsection">
+      <div class="subsection-label">PCB Design</div>
+      <h3>Schematic to verified layout</h3>
+      <p>The schematic captures the full signal and power chain — from the ESP32-S3 through encoder inputs, IMU, display driver, and BMS — before layout began. Routing priority went to power planes and high-speed signal isolation.</p>
+      <div class="img-grid cols-3">
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/pcb-schematic.jpg" alt="Full schematic — EasyEDA" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">pcb-schematic.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
           </div>
-        </div>
-        <figcaption class="img-caption">TEU PCB — REV 1.3</figcaption>
-      </figure>
-      <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/smart-tongs/04-schematic.jpg" alt="EasyEDA schematic">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">04-schematic.jpg</span>
-            <span class="placeholder-folder">images/smart-tongs/</span>
+          <figcaption class="img-caption">Full schematic — EasyEDA</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/pcb-layout.jpg" alt="PCB layout — routed board" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">pcb-layout.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
           </div>
-        </div>
-        <figcaption class="img-caption">EasyEDA schematic</figcaption>
-      </figure>
-      <figure class="img-figure">
-        <div class="img-wrap">
-          <img src="../images/smart-tongs/05-assembled-tong.jpg" alt="Assembled tong with PCB visible">
-          <div class="img-placeholder">
-            <span class="placeholder-icon">📷</span>
-            <span class="placeholder-filename">05-assembled-tong.jpg</span>
-            <span class="placeholder-folder">images/smart-tongs/</span>
+          <figcaption class="img-caption">PCB layout — routed board</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/pcb-render.jpg" alt="3D render of bare PCB" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">pcb-render.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
           </div>
-        </div>
-        <figcaption class="img-caption">Assembled tong with PCB visible</figcaption>
-      </figure>
+          <figcaption class="img-caption">3D render of bare PCB</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- TEU — Tong Electronics Unit -->
+    <div class="subsection">
+      <div class="subsection-label">TEU — Tong Electronics Unit</div>
+      <h3>Fabricated and populated board</h3>
+      <p>The fabricated TEU REV 1.3 measures to fit inside the tong handle. All key components — ESP32-S3 module, BMS IC, encoder connector, and OLED header — are visible on the populated board.</p>
+      <div class="img-grid cols-3">
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/teu-front.jpg" alt="TEU REV 1.3 — component side" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">teu-front.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">TEU REV 1.3 — component side</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/teu-back.jpg" alt="TEU REV 1.3 — solder side" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">teu-back.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">TEU REV 1.3 — solder side</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/teu-detail.jpg" alt="TEU detail — connectors and ICs" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">teu-detail.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">TEU detail — connectors and ICs</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Mechanical Assembly -->
+    <div class="subsection">
+      <div class="subsection-label">Mechanical Assembly</div>
+      <h3>Integration into the tong body</h3>
+      <p>The mechanical challenge was fitting all electronics into standard tong geometry without modifying the serving experience. The encoder mounts at the hinge axle, the TEU slides into the handle cavity, and the OLED is flush-mounted on the outer arm face.</p>
+      <div class="img-grid cols-3">
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/mech-exploded.jpg" alt="Exploded assembly view" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">mech-exploded.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">Exploded assembly view</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/mech-encoder-mount.jpg" alt="Encoder hinge mount detail" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">mech-encoder-mount.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">Encoder hinge mount detail</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/mech-assembled.jpg" alt="Fully assembled tong" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">mech-assembled.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">Fully assembled tong</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
+
+  <!-- ── 03 SOLUTION ── -->
   <div class="case-section">
     <p class="section-eyebrow">03 — Solution</p>
     <h2>A fully integrated smart serving device</h2>
     <p>The device looks and feels like a normal pair of tongs. The TEU PCB is hidden inside the handle, the encoder is embedded in the hinge axle, and the OLED is visible on one arm. WiFi relay to a base station enables aggregate reporting with no wired connection.</p>
-        <div class="img-grid cols-2">
+    <div class="img-grid cols-2">
       <figure class="img-figure">
         <div class="img-wrap">
-          <img src="../images/smart-tongs/06-final-product.jpg" alt="Final product shot">
+          <img src="../images/smart-tongs/06-final-product.jpg" alt="Final product shot" onload="this.classList.add('loaded')">
           <div class="img-placeholder">
             <span class="placeholder-icon">📷</span>
             <span class="placeholder-filename">06-final-product.jpg</span>
@@ -251,7 +353,7 @@
       </figure>
       <figure class="img-figure">
         <div class="img-wrap">
-          <img src="../images/smart-tongs/07-oled-display.jpg" alt="OLED display showing serving data in use">
+          <img src="../images/smart-tongs/07-oled-display.jpg" alt="OLED display showing serving data in use" onload="this.classList.add('loaded')">
           <div class="img-placeholder">
             <span class="placeholder-icon">📷</span>
             <span class="placeholder-filename">07-oled-display.jpg</span>
@@ -265,6 +367,8 @@
       <span class="tech-chip">ESP32-S3</span><span class="tech-chip">Custom PCB</span><span class="tech-chip">EasyEDA</span><span class="tech-chip">Magnetic Encoder</span><span class="tech-chip">MPU-6050</span><span class="tech-chip">FreeRTOS</span><span class="tech-chip">WiFi / BLE</span><span class="tech-chip">Li-ion BMS</span>
     </div>
   </div>
+
+  <!-- ── 04 RESULT ── -->
   <div class="case-section">
     <p class="section-eyebrow">04 — Result</p>
     <h2>Award-winning. Deployable.</h2>
@@ -274,31 +378,85 @@
       <div class="impact-stat"><div class="impact-num">🏆</div><div class="impact-label">Sustainability award won</div></div>
     </div>
     <p>Won a sustainability award and demonstrated a complete embedded product design cycle — from problem framing through custom silicon to validated prototype.</p>
+
+    <!-- Final presentation showcase -->
+    <div class="subsection">
+      <div class="subsection-label">Final Presentation</div>
+      <h3>Project showcase</h3>
+      <div class="img-grid hero-plus-three">
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/pres-hero.jpg" alt="Final presentation — hero slide" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">pres-hero.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">Final presentation — hero slide</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/pres-detail-1.jpg" alt="Presentation detail — system overview" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">pres-detail-1.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">Presentation detail — system overview</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/pres-detail-2.jpg" alt="Presentation detail — results & data" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">pres-detail-2.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">Presentation detail — results & data</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/smart-tongs/pres-detail-3.jpg" alt="Presentation detail — conclusion & next steps" onload="this.classList.add('loaded')">
+            <div class="img-placeholder">
+              <span class="placeholder-icon">📷</span>
+              <span class="placeholder-filename">pres-detail-3.jpg</span>
+              <span class="placeholder-folder">images/smart-tongs/</span>
+            </div>
+          </div>
+          <figcaption class="img-caption">Presentation detail — conclusion & next steps</figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
+
+  <!-- ── 05 KEY LEARNING ── -->
   <div class="case-section">
     <p class="section-eyebrow">05 — Key Learning</p>
     <h2>Power budget forces every design decision</h2>
     <p>Designing for 30-day battery life on a physically handled device is a different problem than designing for low average power. Every peripheral, every ISR, every network transaction had to be evaluated against the budget. This constraint made the design better — it eliminated convenience features that would have been noise, and forced aggressive sleep mode design that proved the hardware's real capabilities.</p>
     <p>Owning the full hardware stack — from sensor selection through schematic capture through firmware — meant that tradeoffs between power, response time, and accuracy were always explicit, never inherited from a dev board's assumptions.</p>
   </div>
+
   <div class="project-nav">
     <a href="delta-printer.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">Custom Delta 3D Printer</div></a>
     <a href="pain-depi.html" class="proj-nav-link next"><div class="proj-nav-dir">Next →</div><div class="proj-nav-title">2023 FRC Robot — Pain d'Épi</div></a>
   </div>
 </div>
+
 <footer>
   <span>© 2026 Maxwell Goldenson</span>
   <span><a href="../index.html">← Back to Portfolio</a></span>
 </footer>
 
 <script>
-  // Mark images that load successfully so placeholder hides via CSS
   document.querySelectorAll('.img-wrap img').forEach(img => {
     if (img.complete && img.naturalWidth > 0) {
       img.classList.add('loaded');
     } else {
       img.addEventListener('load', () => img.classList.add('loaded'));
-      // On error, leave placeholder visible (it's visible by default)
     }
   });
 </script>

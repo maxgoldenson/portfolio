@@ -33,7 +33,7 @@
     #lb-caption {
       font-family: 'Space Mono', monospace;
       font-size: 0.72rem;
-      color: #888898;
+      color: #e8e8f0;
       letter-spacing: 0.08em;
       text-align: center;
       max-width: 680px;

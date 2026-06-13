@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 -c \":*)"
+      "Bash(python3 -c \":*)",
+      "mcp__f0fc8020-e113-449d-b7ca-f2e4a1217d1a__search_files",
+      "mcp__f0fc8020-e113-449d-b7ca-f2e4a1217d1a__read_file_content"
     ]
   }
 }

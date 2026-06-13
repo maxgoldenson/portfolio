@@ -747,6 +747,7 @@
   <nav>
     <a href="#" class="nav-logo">MG_PORTFOLIO</a>
     <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#about">About</a></li>
@@ -764,8 +765,9 @@
         <span>Goldenson</span>
       </h1>
       <p class="hero-desc fade-in">
-        Designing, integrating, and debugging real-world robotic systems that bridge precision mechanisms,
-        embedded electronics, and control. Dual BSME/BSEE at CU Boulder.
+        I design, integrate, and debug real-world robotic systems end-to-end — precision mechanisms, custom
+        PCBs, firmware, and control. Currently building a commercially deployed smart coffee machine at Brewbird,
+        where I own hardware from first-principles analysis to validated production parts. Dual BSME/BSEE at CU Boulder.
       </p>
       <div class="hero-cta fade-in">
         <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -774,8 +776,8 @@
 
       <div class="hero-stats fade-in">
         <div class="stat">
-          <div class="stat-num">±20μm</div>
-          <div class="stat-label">Encoder precision</div>
+          <div class="stat-num">±10μm</div>
+          <div class="stat-label">Encoder accuracy · 2× spec</div>
         </div>
         <div class="stat">
           <div class="stat-num">$250k</div>
@@ -800,9 +802,48 @@
 
   <div class="full-bleed-divider"></div>
 
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">01 — Experience</p>
+    <h2>Where I've Worked</h2>
+
+    <div class="experience-grid">
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-title">Mechatronics Engineer · <span class="exp-company">Brewbird</span></div>
+          <div class="exp-date">2024 — Present · San Francisco, CA</div>
+        </div>
+        <div class="exp-role">Hardware · Electronics · Firmware</div>
+        <ul class="exp-bullets">
+          <li>Own hardware on a commercially deployed smart coffee machine end-to-end — from first-principles analysis through custom PCBs, firmware, and validated production parts.</li>
+          <li>Designed a sub-$5 capacitive linear encoder that holds ±10 µm — 2× better than the ±20 µm requirement — closing the grinder's grind-size feedback loop and improving taste consistency across the deployed fleet.</li>
+          <li>Built a custom ESP32 data logger (10,000+ samples/sec, runs unattended for days) that root-caused intermittent mechanism failures invisible to bench instruments; now a standard tool in the hardware-debug workflow.</li>
+          <li>Redesigned load-bearing mechanisms and built automated test fixtures that surface hidden failure modes before they reach the field.</li>
+        </ul>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-title">Student Lead &amp; Mentor · <span class="exp-company">FIRST Robotics Competition</span></div>
+          <div class="exp-date">Multi-Season</div>
+        </div>
+        <div class="exp-role">Leadership · Mechanism Design</div>
+        <ul class="exp-bullets">
+          <li>Led and mentored a 25-person competitive robotics team to a 4th-place international finish among 3,300+ teams.</li>
+          <li>Designed a low-hysteresis robotic arm with a belt-box reduction and pass-through joint wiring, validated to 10,000 cycles on a custom torsional fatigue jig.</li>
+          <li>Ran SOLIDWORKS FEA to lightweight swerve gears, then machined custom fixtures to manufacture them in-house.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="full-bleed-divider"></div>
+
   <!-- PROJECTS -->
   <section id="projects">
-    <p class="section-label">01 — Projects</p>
+    <p class="section-label">02 — Projects</p>
     <h2>What I've Built</h2>
 
     <div id="filterStatus" class="filter-status">
@@ -817,9 +858,9 @@
         <div class="project-tag">Sensors / Embedded</div>
         <div class="project-title">Linear Capacitive Encoder</div>
         <p class="project-desc">
-          Designed, prototyped, and validated a high-accuracy linear position sensor using plate capacitance.
-          Achieved ±20μm resolution for under $5 — born from the need for a sensor balancing size and accuracy
-          that didn't exist on the market.
+          Designed, prototyped, and validated a high-accuracy linear position sensor using a vernier capacitive
+          array. Holds ±10μm — 2× better than the ±20μm requirement — for under $5, with ratiometric references
+          that reject coffee-oil contamination as common-mode error.
         </p>
         <div class="project-tech">
           <span class="tech-chip">Capacitive Sensing</span>
@@ -960,7 +1001,7 @@
 
   <!-- SKILLS -->
   <section id="skills">
-    <p class="section-label">02 — Skills</p>
+    <p class="section-label">03 — Skills</p>
     <h2>Tools & Technologies</h2>
 
     <div class="skills-layout">
@@ -1015,7 +1056,7 @@
 
   <!-- ABOUT -->
   <section id="about">
-    <p class="section-label">03 — About</p>
+    <p class="section-label">04 — About</p>
     <h2>A Bit About Me</h2>
 
     <div class="about-layout">
@@ -1025,7 +1066,7 @@
           <div class="edu-degree">
             B.S. Mechanical Engineering<br>
             B.S. Electrical Engineering<br>
-            Junior Standing
+            Dual Degree
           </div>
           <div class="edu-gpa">GPA: 3.6</div>
         </div>
@@ -1052,25 +1093,25 @@
 
       <div class="about-text">
         <p>
-          I'm a <strong>robotics and mechatronics engineer</strong> pursuing dual degrees in Mechanical and
-          Electrical Engineering at CU Boulder. My work sits at the intersection of precision mechanisms,
-          embedded electronics, sensors, and control systems.
+          I'm a <strong>robotics and mechatronics engineer</strong> working at the intersection of precision
+          mechanisms, embedded electronics, sensors, and control — while pursuing dual B.S. degrees in Mechanical
+          and Electrical Engineering at CU Boulder.
         </p>
         <p>
-          At <strong>Brewbird</strong>, I've worked on every layer of a commercially deployed smart coffee
-          machine — from redesigning load-bearing mechanisms and developing novel encoder technology to building
-          automated test fixtures that surface hidden failure modes. I thrive on problems that don't have
-          off-the-shelf solutions.
+          At <strong>Brewbird</strong>, I work across every layer of a commercially deployed smart coffee machine.
+          I'm drawn to problems with no off-the-shelf answer: when no sensor fit the grinder's size, cost, and
+          contamination constraints, I designed one from first principles and <strong>validated it to ±10μm —
+          beating the ±20μm requirement by 2×</strong>.
         </p>
         <p>
-          My personal projects reflect the same drive: a custom delta 3D printer iterated through five major
-          revisions, a sub-$5 linear encoder accurate to ±20μm, smart food-waste-reducing tongs with a custom
-          PCB, and deep dives into FOC motor control from first principles.
+          The same drive runs through my personal work — a custom delta 3D printer taken through five major
+          revisions, smart food-waste-reducing tongs on a custom PCB, and a ground-up study of field-oriented
+          motor control. I don't consider a design finished until it's measured and proven.
         </p>
         <p>
-          Outside the lab, I've led and mentored a 25-person competitive robotics team, competed in FRC at
-          the national level, and built everything from electric skateboards to onewheel clones. I believe the
-          best engineers build things — and then iterate until they actually work.
+          Outside the lab, I've led and mentored a 25-person competitive robotics team to a top-five international
+          finish, and built everything from electric skateboards to onewheel clones. The best engineers build
+          things — and then iterate until they actually work.
         </p>
       </div>
     </div>

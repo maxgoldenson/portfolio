@@ -40,7 +40,7 @@
     if (!video) return;
     button.addEventListener('click', () => {
       video.muted = !video.muted;
-      button.textContent = video.muted ? 'sound: off' : 'sound: on';
+      button.textContent = video.muted ? 'Sound off' : 'Sound on';
       button.classList.toggle('unmuted', !video.muted);
     });
   });

@@ -1,10 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#f5f3ec"/>
-  <rect x="3" y="3" width="58" height="58" fill="none" stroke="#1b1e23" stroke-width="3"/>
-  <line x1="32" y1="8" x2="32" y2="20" stroke="#b23a1c" stroke-width="2"/>
-  <line x1="32" y1="44" x2="32" y2="56" stroke="#b23a1c" stroke-width="2"/>
-  <line x1="8" y1="32" x2="20" y2="32" stroke="#b23a1c" stroke-width="2"/>
-  <line x1="44" y1="32" x2="56" y2="32" stroke="#b23a1c" stroke-width="2"/>
-  <circle cx="32" cy="32" r="12" fill="none" stroke="#2547c4" stroke-width="3"/>
-  <circle cx="32" cy="32" r="3" fill="#1b1e23"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0090f7"/>
+      <stop offset="0.55" stop-color="#4f56ff"/>
+      <stop offset="1" stop-color="#a259ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#g)"/>
+  <text x="32" y="42" text-anchor="middle"
+        font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+        font-size="26" font-weight="700" fill="#ffffff">MG</text>
 </svg>

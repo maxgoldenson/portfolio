@@ -9,8 +9,9 @@
       position: fixed;
       inset: 0;
       z-index: 9000;
-      background: rgba(27, 30, 35, 0.88);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: saturate(120%) blur(24px);
+      -webkit-backdrop-filter: saturate(120%) blur(24px);
       align-items: center;
       justify-content: center;
       flex-direction: column;
@@ -25,40 +26,39 @@
       height: auto;
       object-fit: contain;
       display: block;
-      border: 1px solid #f5f3ec;
       background: #fff;
-      box-shadow: 8px 8px 0 rgba(0,0,0,0.45);
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
     }
     #lb-caption {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      color: #f5f3ec;
-      letter-spacing: 0.08em;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: -0.005em;
       text-align: center;
       max-width: 700px;
-      line-height: 1.6;
+      line-height: 1.55;
     }
     #lb-close {
       position: fixed;
       top: 1.25rem;
       right: 1.5rem;
-      background: #f5f3ec;
-      border: 1px solid #1b1e23;
-      color: #1b1e23;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      padding: 0.4rem 0.8rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 980px;
+      color: #1d1d1f;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.45rem 1rem;
       cursor: pointer;
       z-index: 9001;
     }
-    #lb-close:hover { color: #2547c4; border-color: #2547c4; }
+    #lb-close:hover { background: #fff; }
     #lb-hint {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.56rem;
-      color: rgba(245,243,236,0.55);
-      letter-spacing: 0.1em;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', sans-serif;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
       position: fixed;
       bottom: 1.1rem;
       left: 50%;
@@ -70,7 +70,7 @@
   const overlay = document.createElement('div');
   overlay.id = 'lb-overlay';
   overlay.innerHTML = `
-    <button id="lb-close">ESC / CLOSE ×</button>
+    <button id="lb-close">Close ✕</button>
     <img id="lb-img" src="" alt="">
     <p id="lb-caption"></p>
     <span id="lb-hint">click outside or press Esc to close</span>

@@ -2,16 +2,29 @@
 
 Static HTML/CSS/JS portfolio site. No build system — open `index.html` directly in a browser or serve from any static host.
 
+**Design:** modern, Apple-inspired system — clean white and soft-gray surfaces, large tight
+typography on the system font stack (Inter fallback), pill buttons, rounded cards with gentle
+shadows, a frosted-glass nav, and a blue→purple gradient accent. Shared styles live in
+`assets/style.css`; shared behavior (nav, scroll reveal, skill→project filter, video sound
+toggles) in `assets/site.js`; the figure zoom overlay in `assets/lightbox.js`.
+
+**TODO:** drop a `resume.pdf` into the repository root — the nav and hero link to it.
+
 ---
 
 ## File Structure
 
 ```
 portfolio/
-├── index.html          # Home page (projects, skills, about)
+├── index.html          # Home page (hero, projects, skills, experience, about)
 ├── contact.html        # Contact form (mailto-based, no backend)
 ├── favicon.svg         # Browser tab icon
 ├── README.md
+│
+├── assets/
+│   ├── style.css       # Design system shared by every page
+│   ├── site.js         # Nav, reveal animations, skill filter, video controls
+│   └── lightbox.js     # Click-to-zoom for case study figures
 │
 ├── projects/           # Individual project case study pages
 │   ├── linear-encoder.html
@@ -24,6 +37,7 @@ portfolio/
 │   └── clipper-guard.html
 │
 └── images/             # Project photos, organized by project
+    ├── cards/          # Generated 3:2 WebP heroes for the homepage cards
     ├── data-logger/
     ├── delta-printer/
     ├── corexy-printer/

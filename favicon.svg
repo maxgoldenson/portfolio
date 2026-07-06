@@ -1,4 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="4" fill="#111118"/>
-  <text x="16" y="25" text-anchor="middle" font-family="monospace" font-size="26" font-weight="700" fill="#e8ff47">M</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0090f7"/>
+      <stop offset="0.55" stop-color="#4f56ff"/>
+      <stop offset="1" stop-color="#a259ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#g)"/>
+  <text x="32" y="42" text-anchor="middle"
+        font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+        font-size="26" font-weight="700" fill="#ffffff">MG</text>
 </svg>

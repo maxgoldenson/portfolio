@@ -26,7 +26,6 @@
     <li><a href="#experience">Experience</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="contact.html">Contact</a></li>
-    <!-- Drop resume.pdf into the repository root to make this link live -->
     <li><a href="resume.pdf" class="nav-cta">Résumé</a></li>
   </ul>
 </nav>
@@ -41,8 +40,9 @@
       and the firmware between them.
     </p>
     <p class="hero-desc reveal in dl-2">
-      Dual-degree BSME / BSEE at CU Boulder, currently building commercially
-      deployed hardware at Brewbird in San Francisco.
+      Dual-degree BSME / BSEE at CU Boulder, building commercially deployed
+      hardware at Brewbird and running Switchback, an AI assistant that works
+      over SMS and satellite.
     </p>
     <div class="hero-cta reveal in dl-3">
       <a href="#projects" class="btn btn-solid">View projects</a>
@@ -52,7 +52,7 @@
 
     <div class="hero-stats reveal in dl-4">
       <div class="stat">
-        <div class="stat-num">±20 µm</div>
+        <div class="stat-num">±10 µm</div>
         <div class="stat-label">Encoder resolution, under a $5 BOM</div>
       </div>
       <div class="stat">
@@ -60,8 +60,8 @@
         <div class="stat-label">Samples logged for days straight</div>
       </div>
       <div class="stat">
-        <div class="stat-num">$250k</div>
-        <div class="stat-label">Annual savings engineered</div>
+        <div class="stat-num">2,500 h</div>
+        <div class="stat-label">Annual service time engineered out</div>
       </div>
       <div class="stat">
         <div class="stat-num">500</div>
@@ -91,6 +91,62 @@
 
     <div class="projects-grid">
 
+      <a href="projects/tools-for-ai.html" class="card reveal" data-skills="llm,python,esp32,c,react,fixtures">
+        <div class="card-media">
+          <span class="card-index">P/09</span>
+          <span class="card-match">match</span>
+          <!-- hardware-in-the-loop block diagram, drawn in-line -->
+          <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI hardware-in-the-loop debug rig block diagram">
+            <rect width="600" height="400" fill="#f5f5f7"/>
+            <g font-family="-apple-system, Inter, sans-serif">
+              <!-- agent box -->
+              <rect x="60" y="80" width="170" height="90" rx="10" fill="#ffffff" stroke="#1d1d1f" stroke-width="2"/>
+              <text x="145" y="118" font-size="16" font-weight="600" fill="#1d1d1f" text-anchor="middle">Claude agent</text>
+              <text x="145" y="142" font-size="12" fill="#6e6e73" text-anchor="middle">writes &amp; revises firmware</text>
+              <!-- bench node box -->
+              <rect x="370" y="60" width="170" height="130" rx="10" fill="#ffffff" stroke="#0071e3" stroke-width="2"/>
+              <text x="455" y="90" font-size="16" font-weight="600" fill="#0071e3" text-anchor="middle">Pi bench node</text>
+              <text x="455" y="114" font-size="12" fill="#6e6e73" text-anchor="middle">logic analyzer · scope</text>
+              <text x="455" y="134" font-size="12" fill="#6e6e73" text-anchor="middle">ESP32 compile / flash</text>
+              <text x="455" y="154" font-size="12" fill="#6e6e73" text-anchor="middle">serial I/O</text>
+              <text x="455" y="176" font-size="12" fill="#6e6e73" text-anchor="middle">real instruments</text>
+              <!-- forward arrow -->
+              <line x1="230" y1="105" x2="358" y2="105" stroke="#1d1d1f" stroke-width="2"/>
+              <path d="M358 105 l-13 -6 l0 12 Z" fill="#1d1d1f"/>
+              <text x="294" y="94" font-size="12" font-weight="600" fill="#1d1d1f" text-anchor="middle">24 MCP tools</text>
+              <!-- return arrow -->
+              <line x1="370" y1="150" x2="242" y2="150" stroke="#0071e3" stroke-width="2"/>
+              <path d="M242 150 l13 -6 l0 12 Z" fill="#0071e3"/>
+              <text x="306" y="172" font-size="12" font-weight="600" fill="#0071e3" text-anchor="middle">real measurements</text>
+              <!-- pass/fail gate -->
+              <rect x="190" y="240" width="220" height="64" rx="10" fill="#ffffff" stroke="#a259ff" stroke-width="2"/>
+              <text x="300" y="267" font-size="14" font-weight="600" fill="#a259ff" text-anchor="middle">machine-checked pass / fail</text>
+              <text x="300" y="289" font-size="12" fill="#6e6e73" text-anchor="middle">loop until criteria met</text>
+              <line x1="300" y1="190" x2="300" y2="228" stroke="#a259ff" stroke-width="1.6" stroke-dasharray="5 5"/>
+              <path d="M300 236 l-6 -12 l12 0 Z" fill="#a259ff"/>
+              <!-- caption strip -->
+              <text x="24" y="376" font-size="12" letter-spacing="2" fill="#6e6e73">AI HARDWARE-IN-THE-LOOP / EVERY CLAIM MEASURED</text>
+            </g>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">AI Tooling / Embedded</div>
+          <div class="card-title">Tools-For-AI — Hardware-in-the-Loop Debug Rig</div>
+          <p class="card-desc">
+            A Raspberry Pi bench node that gives an AI agent real instruments — logic-analyzer capture,
+            signal measurement, ESP32 compile/flash, serial — as 24 MCP tools. The agent writes firmware,
+            flashes, measures, and revises until machine-checked pass/fail criteria are met.
+          </p>
+          <div class="card-chips">
+            <span class="chip">LLM agents</span>
+            <span class="chip">MCP</span>
+            <span class="chip">Python</span>
+            <span class="chip">ESP32</span>
+          </div>
+          <div class="card-cta"><span>Case study</span><span>→</span></div>
+        </div>
+      </a>
+
       <a href="projects/linear-encoder.html" class="card reveal" data-skills="pcb,c,sensors,python,easyeda,esp32">
         <div class="card-media">
           <span class="card-index">P/01</span>
@@ -102,7 +158,7 @@
           <div class="card-title">Linear Capacitive Encoder</div>
           <p class="card-desc">
             A novel position sensor designed from first principles when nothing on the market fit —
-            ±20 µm resolution for under $5, validated on a custom metrology fixture and deployed at Brewbird.
+            ±10 µm resolution for under $5, validated on a custom metrology fixture and deployed at Brewbird.
           </p>
           <div class="card-chips">
             <span class="chip">Capacitive sensing</span>
@@ -334,12 +390,14 @@
         </div>
       </div>
       <div class="skill-group">
-        <div class="skill-group-label">Embedded &amp; Firmware</div>
+        <div class="skill-group-label">Software &amp; Firmware</div>
         <div class="skill-list">
           <span class="skill-pill" data-skill="c">C</span>
           <span class="skill-pill" data-skill="arduino">Arduino-C</span>
           <span class="skill-pill" data-skill="esp32">ESP32</span>
           <span class="skill-pill" data-skill="python">Python</span>
+          <span class="skill-pill" data-skill="llm">LLM Agents</span>
+          <span class="skill-pill" data-skill="react">React</span>
           <span class="skill-pill static">Verilog</span>
           <span class="skill-pill static">MATLAB</span>
         </div>
@@ -384,15 +442,29 @@
 
     <div class="exp-list reveal">
       <div class="exp-item">
-        <div class="exp-when">CURRENT · SAN FRANCISCO</div>
+        <div class="exp-when">MAY 2024 – PRESENT · SAN FRANCISCO</div>
         <div>
-          <div class="exp-role">Hardware Engineering</div>
+          <div class="exp-role">Associate Mechanical Engineer</div>
           <div class="exp-org">Brewbird — Commercial Smart Coffee Machines</div>
           <ul class="exp-bullets">
-            <li>Work across every layer of a commercially deployed machine — precision mechanisms, sensing, embedded electronics, and test infrastructure.</li>
-            <li>Redesigned load-bearing mechanisms and developed a <strong>novel ±20 µm capacitive encoder</strong> when no off-the-shelf sensor fit the size and cost envelope.</li>
-            <li>Built a custom ESP32 data logger (10k+ samples/sec, days of runtime) that <strong>root-caused intermittent field failures</strong> and cut debug cycles from weeks to days.</li>
-            <li>Engineering work contributing to <strong>$250k in annual cost savings</strong>, including automated test fixtures that surface hidden failure modes before deployment.</li>
+            <li>Designed and built the <strong>AutoCycler</strong>, an unattended endurance-test fixture for Brewbird machines — stepper auger doser, servo door actuator, capacitive brew trigger, and color sensors reading the status lights, on two ESP32s and a Raspberry Pi.</li>
+            <li>Wrote its full software stack: ESP32 firmware and serial protocol, a Python touchscreen app that closes the loop on the status lights and pushes phone alerts, and an <strong>OTA launcher that updates the app and firmware fleet-wide from GitHub</strong>.</li>
+            <li>Debugged and resolved several mission-critical cross-functional issues, reducing service events and achieving an <strong>annual service time reduction of over 2,500 hours</strong>.</li>
+            <li>Redesigned and validated the Pod Opener Mechanism, extending reliable operation by <strong>500+ cups</strong>.</li>
+            <li>Developed a <strong>novel ±10 µm capacitive linear encoder</strong> from theory to prototype when no off-the-shelf sensor balanced size and accuracy — improving grind size accuracy, repeatability, and ultimately taste.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-when">AUG 2026 – PRESENT · BOULDER</div>
+        <div>
+          <div class="exp-role">Founder &amp; Software Engineer</div>
+          <div class="exp-org">Switchback — AI Assistant over SMS &amp; Satellite · <a href="https://switchbackconnect.com" target="_blank" rel="noopener">switchbackconnect.com</a></div>
+          <ul class="exp-bullets">
+            <li>Founded Switchback, an AI assistant hikers and climbers text over SMS or satellite (iPhone, Garmin inReach) — a Claude agent with live weather, terrain, and web-search tools answers backcountry questions in ≤140-character messages.</li>
+            <li>Architected and shipped a <strong>serverless Python backend</strong> (AWS Lambda, DynamoDB, Twilio, Stripe, Claude API) from scope to production in 6 days at ~$0 fixed monthly cost, with 47 automated tests and three-tier Stripe subscription billing.</li>
+            <li>Built the agent loop with two-tier model routing, tool use, a code-enforced GSM-7 pipeline capping replies at 2×140 characters, and an <strong>SOS-first safety rail</strong> — validated on real satellite hardware.</li>
           </ul>
         </div>
       </div>
@@ -433,7 +505,7 @@
               B.S. ELECTRICAL ENGINEERING<br>
               JUNIOR STANDING
             </div>
-            <span class="edu-gpa">GPA 3.6</span>
+            <span class="edu-gpa">GPA 3.68</span>
           </div>
         </div>
 
@@ -472,9 +544,11 @@
         </p>
         <p>
           My personal projects run on the same fuel: a delta 3D printer iterated through five revisions
-          until it outran commercial machines, a sub-$5 encoder accurate to ±20 µm, smart tongs with a
+          until it outran commercial machines, a sub-$5 encoder accurate to ±10 µm, smart tongs with a
           custom PCB in the handle, and a from-scratch FOC motor controller built purely to eliminate a
-          black box.
+          black box. Lately that fuel also powers software: I founded <strong>Switchback</strong>, an AI
+          assistant for the backcountry that works over SMS and satellite, and built an AI
+          hardware-in-the-loop rig that lets an agent flash and measure real embedded hardware.
         </p>
         <p>
           Outside the lab I've led and mentored a 25-person competitive robotics team, competed at the

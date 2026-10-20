@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tools-For-AI Debug Rig — Maxwell Goldenson</title>
+  <meta name="description" content="An AI hardware-in-the-loop debug rig — a Raspberry Pi bench node that gives an AI agent real instruments as 24 MCP tools, so every conclusion rests on a real measurement.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-brand">
+    <span class="nav-brand-mark">MG</span>
+    <span class="nav-brand-name">Maxwell Goldenson</span>
+  </a>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links">
+    <li><a href="../index.html#projects">All projects</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+    <li><a href="../resume.pdf" class="nav-cta">Résumé</a></li>
+  </ul>
+</nav>
+
+<header class="case-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / P.09</div>
+    <div class="case-tag">AI Tooling / Embedded</div>
+    <h1>Tools-For-AI — Hardware-in-the-Loop Debug Rig</h1>
+    <p class="case-tagline">
+      A Raspberry Pi bench node that gives an AI agent real instruments — logic-analyzer capture and
+      decode, signal measurement, ESP32 compile/flash, and serial I/O — exposed as 24 MCP tools. The
+      agent writes firmware, flashes it, measures, and revises until machine-checked pass/fail criteria
+      are met, so every conclusion rests on a real measurement, not the model's own claims.
+    </p>
+    <div class="spec-table">
+      <div class="spec-cell"><span class="spec-label">MCP tools</span><span class="spec-value">24</span></div>
+      <div class="spec-cell"><span class="spec-label">Automated tests</span><span class="spec-value">75</span></div>
+      <div class="spec-cell"><span class="spec-label">Stack</span><span class="spec-value">Python / Claude agent</span></div>
+      <div class="spec-cell"><span class="spec-label">Year</span><span class="spec-value">2026</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="case-body">
+  <div class="wrap">
+
+    <div class="case-section reveal">
+      <p class="case-eyebrow">01 — Problem</p>
+      <h2>AI agents will say firmware works. Hardware disagrees.</h2>
+      <p>An LLM can write plausible embedded firmware all day — but it has no way to know whether the PWM actually comes out at the right frequency, whether the I²C transaction actually ACKs, or whether the board even enumerated. Left unchecked, an agent "verifies" its own code by reading it.</p>
+      <p>The fix is the same one hardware engineering has always used: <strong>don't trust the claim, measure it</strong>. That means giving the agent real bench instruments and making a machine-checked measurement — not the model's self-assessment — the only way to pass.</p>
+      <div class="callout"><p>"The agent doesn't get to decide it's done. The logic analyzer decides it's done."</p></div>
+    </div>
+
+    <div class="case-section reveal">
+      <p class="case-eyebrow">02 — Process</p>
+      <h2>A bench node the agent can actually use</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Instrument back end on a Raspberry Pi</h4><p>Built a Python back end on a Raspberry Pi bench node that owns the physical instruments: logic-analyzer capture and protocol decode, signal measurement, ESP32 toolchain compile/flash, and raw serial I/O to the target.</p></div></div>
+        <div class="step"><div class="step-num">02</div><div class="step-content"><h4>24 MCP tools</h4><p>Exposed every bench capability as typed MCP tools — the agent calls "capture these pins", "flash this build", "measure this signal" the same way it calls any other tool, and gets structured results back instead of screenshots or vibes.</p></div></div>
+        <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Agent loop with an injection boundary</h4><p>Built the Claude agent loop with an explicit injection boundary: untrusted serial output and compiler text are treated as data, never as instructions. The agent iterates — write, flash, measure, revise — against the real board.</p></div></div>
+        <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Machine-checked pass/fail</h4><p>Success criteria are evaluated in code against captured measurements, so a run only passes when the hardware behaves — not when the model says it should. A browser Workbench/Assistant app shows runs live, a mock mode enables development without hardware, and 75 automated tests cover the stack.</p></div></div>
+      </div>
+      <div class="img-grid cols-2">
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/tools-for-ai/01-bench-node.jpg" alt="Raspberry Pi bench node wired to the ESP32 target and logic analyzer" loading="lazy" decoding="async">
+            <div class="img-placeholder"><span class="placeholder-label">Figure pending</span><span class="placeholder-filename">tools-for-ai/01-bench-node.jpg</span></div>
+          </div>
+          <figcaption class="img-caption">The bench node — Raspberry Pi, ESP32 target, and logic analyzer</figcaption>
+        </figure>
+        <figure class="img-figure">
+          <div class="img-wrap">
+            <img src="../images/tools-for-ai/02-workbench-app.jpg" alt="Browser Workbench app showing a live agent run with captured waveforms" loading="lazy" decoding="async">
+            <div class="img-placeholder"><span class="placeholder-label">Figure pending</span><span class="placeholder-filename">tools-for-ai/02-workbench-app.jpg</span></div>
+          </div>
+          <figcaption class="img-caption">Browser Workbench — watching an agent run against real hardware</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="case-section reveal">
+      <p class="case-eyebrow">03 — Solution</p>
+      <h2>An agent that closes the loop on real hardware</h2>
+      <p>The finished rig is a full Python stack: the instrument back end, the Claude agent loop with its injection boundary for untrusted serial and compiler text, and the browser Workbench/Assistant app — with a mock mode for hardware-free development and <strong>75 automated tests</strong> keeping it honest.</p>
+      <p>Hand it a task like "bring up PWM on this pin at 25 kHz" and the agent writes the firmware, compiles and flashes it, captures the pin with the logic analyzer, and keeps revising until the measured waveform meets the machine-checked criteria.</p>
+      <div class="tech-row">
+        <span class="chip">Python</span><span class="chip">MCP</span><span class="chip">Claude API</span><span class="chip">Raspberry Pi</span><span class="chip">ESP32</span><span class="chip">Logic Analyzer</span><span class="chip">React</span><span class="chip">pytest</span>
+      </div>
+    </div>
+
+    <div class="case-section reveal">
+      <p class="case-eyebrow">04 — Result</p>
+      <h2>Every conclusion rests on a measurement</h2>
+      <div class="impact-grid">
+        <div class="impact-stat"><div class="impact-num">24</div><div class="impact-label">MCP tools over real instruments</div></div>
+        <div class="impact-stat"><div class="impact-num">75</div><div class="impact-label">Automated tests</div></div>
+        <div class="impact-stat"><div class="impact-num">0</div><div class="impact-label">Self-graded results</div></div>
+      </div>
+      <p>The rig turns an AI agent from a plausible-sounding firmware generator into a bench engineer with instruments — one whose work is accepted or rejected by the hardware itself.</p>
+    </div>
+
+    <div class="case-section reveal">
+      <p class="case-eyebrow">05 — Key Learning</p>
+      <h2>Verification is a tool-design problem</h2>
+      <p>The interesting engineering wasn't prompting — it was deciding <strong>what the agent is allowed to trust</strong>. Serial output and compiler messages are untrusted input and cross an explicit injection boundary as data; pass/fail lives in code, next to the measurements. Get those boundaries right and the agent's iteration loop looks exactly like a good engineer's: hypothesize, flash, measure, revise.</p>
+    </div>
+
+    <div class="project-nav">
+      <a href="clipper-guard.html" class="proj-nav-link prev"><div class="proj-nav-dir">← Previous</div><div class="proj-nav-title">Shane's Clipper Guard</div></a>
+      <a href="linear-encoder.html" class="proj-nav-link next"><div class="proj-nav-dir">Next →</div><div class="proj-nav-title">Linear Capacitive Encoder</div></a>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <span>© 2026 Maxwell Goldenson</span>
+      <span><a href="../index.html">← Back to portfolio</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script src="../assets/lightbox.js"></script>
+</body>
+</html>
